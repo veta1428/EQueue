@@ -19,6 +19,6 @@ namespace Rey.EQueue.Core.Entities
 
         public string? Note { get; set; }
 
-        public ICollection<Teacher>? Teachers { get; set; }
+        public ICollection<SubjectInstanceTeacher> SubjectInstanceTeachers { get; set; } = null!;
     }
 }

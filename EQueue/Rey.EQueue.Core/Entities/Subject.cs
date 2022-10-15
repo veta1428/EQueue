@@ -17,5 +17,8 @@ namespace Rey.EQueue.Core.Entities
 
         public string Name { get; set; } = null!;
         public string? Description { get; set; }
+
+        public ICollection<SubjectInstance> SubjectInstances { get; set; }
+
     }
 }

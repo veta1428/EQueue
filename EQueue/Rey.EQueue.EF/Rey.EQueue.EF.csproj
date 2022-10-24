@@ -20,6 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Rey.EQueue.Application\Rey.EQueue.Application.csproj" />
     <ProjectReference Include="..\Rey.EQueue.Core\Rey.EQueue.Core.csproj" />
   </ItemGroup>
 

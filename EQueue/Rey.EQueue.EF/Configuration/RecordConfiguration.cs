@@ -25,7 +25,7 @@ namespace Rey.EQueue.EF.Configuration
 
             builder
                 .HasOne<User>()
-                .WithMany()
+                .WithMany(u => u.Records)
                 .HasForeignKey(r => r.QueueId);
         }
     }

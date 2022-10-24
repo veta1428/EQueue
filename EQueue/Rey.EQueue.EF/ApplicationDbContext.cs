@@ -4,14 +4,16 @@ using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Rey.EQueue.Core.Entities;
+using Rey.EQueue.EF.Configuration;
 
 namespace Rey.EQueue.EF
 {
-    public class ApplicationDbContext : ApiAuthorizationDbContext<ApplicationUser>
+    public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions options, IOptions<OperationalStoreOptions> operationalStoreOptions)
-            : base(options, operationalStoreOptions)
+        public ApplicationDbContext(DbContextOptions options)
+            : base(options)
         {
+            Database.Migrate();
         }
 
         public DbSet<Class> Classes { get; set; } = null!;
@@ -36,7 +38,17 @@ namespace Rey.EQueue.EF
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration<>();
+            modelBuilder.ApplyConfiguration<Class>(new ClassConfiguration());
+            modelBuilder.ApplyConfiguration<Queue>(new QueueConfiguration());
+            modelBuilder.ApplyConfiguration<Record>(new RecordConfiguration());
+            modelBuilder.ApplyConfiguration<ScheduledClass>(new ScheduledClassConfiguration());
+            modelBuilder.ApplyConfiguration<Subject>(new SubjectConfiguration());
+            modelBuilder.ApplyConfiguration<SubjectInstance>(new SubjectInstanceConfiguration());
+
+            modelBuilder.ApplyConfiguration<SubjectInstanceTeacher>(new SubjectInstanceTeacherConfiguration());
+            modelBuilder.ApplyConfiguration<Teacher>(new TeacherConfiguration());
+            modelBuilder.ApplyConfiguration<Timetable>(new TimetableConfiguration());
+            modelBuilder.ApplyConfiguration<User>(new UserConfiguration());
         }
     }
 }

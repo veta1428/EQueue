@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Rey.EQueue.Core\Rey.EQueue.Core.csproj" />
+    <ProjectReference Include="..\Rey.EQueue.Shared\Rey.EQueue.Shared.csproj" />
+  </ItemGroup>
+
 </Project>

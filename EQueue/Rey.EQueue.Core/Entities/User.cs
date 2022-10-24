@@ -14,6 +14,6 @@ namespace Rey.EQueue.Core.Entities
 
         public string? LastName { get; set; }
 
-        //public ApplicationUser? ApplicationUser { get; set; }
+        public ICollection<Record> Records { get; set; } = null!;
     }
 }

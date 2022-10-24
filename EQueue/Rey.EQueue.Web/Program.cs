@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
 using Rey.EQueue.Core.User;
 using Rey.EQueue.EF;
+using Rey.EQueue.Web.Extensions;
 
 namespace Rey.EQueue.Web
 {
@@ -15,6 +16,8 @@ namespace Rey.EQueue.Web
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
+
+            builder.Services.ConfigureRepositories();
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 

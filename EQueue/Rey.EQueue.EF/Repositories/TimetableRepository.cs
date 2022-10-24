@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Rey.EQueue.EF.Repositories
 {
-    internal class TimetableRepository : Repository<Timetable>, ITimetableRepository
+    public class TimetableRepository : Repository<Timetable>, ITimetableRepository
     {
         public TimetableRepository(ApplicationDbContext context) : base(context)
         {

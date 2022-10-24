@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Rey.EQueue.EF.Repositories
 {
-    internal class SubjectRepository : Repository<Subject>, ISubjectRepository
+    public class SubjectRepository : Repository<Subject>, ISubjectRepository
     {
         public SubjectRepository(ApplicationDbContext context) : base(context)
         {

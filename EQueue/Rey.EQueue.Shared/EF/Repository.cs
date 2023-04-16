@@ -36,7 +36,8 @@ namespace Rey.EQueue.Shared.EF
         }
     }
 
-    public abstract class Repository<TDbContext, TEntity, TId> : BaseRepository<TDbContext, TEntity, TId>, IRepository<TEntity, TId>
+    public abstract class Repository<TDbContext, TEntity, TId> : 
+        BaseRepository<TDbContext, TEntity, TId>, IRepository<TEntity, TId>
         where TDbContext : DbContext
         where TEntity : Entity<TId>
         where TId : struct, IEquatable<TId>

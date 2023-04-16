@@ -22,11 +22,6 @@ namespace Rey.EQueue.EF.Configuration
                 .HasOne<Subject>(si => si.Subject)
                 .WithMany(s => s.SubjectInstances)
                 .HasForeignKey(si => si.SubjectId);
-
-            builder
-                .HasOne<Timetable>(si => si.Timetable)
-                .WithMany()
-                .HasForeignKey(si => si.TimetableId);
         }
     }
 }

@@ -1,8 +1,4 @@
-﻿using Duende.IdentityServer.EntityFramework.Options;
-using Rey.EQueue.Core.User;
-using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.EntityFrameworkCore;
 using Rey.EQueue.Core.Entities;
 using Rey.EQueue.EF.Configuration;
 

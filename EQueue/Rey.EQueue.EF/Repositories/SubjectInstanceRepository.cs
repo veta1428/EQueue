@@ -1,4 +1,5 @@
-﻿using Rey.EQueue.Application.Repositories;
+﻿using Microsoft.EntityFrameworkCore;
+using Rey.EQueue.Application.Repositories;
 using Rey.EQueue.Core.Entities;
 using System;
 using System.Collections.Generic;
@@ -12,6 +13,13 @@ namespace Rey.EQueue.EF.Repositories
     {
         public SubjectInstanceRepository(ApplicationDbContext context) : base(context)
         {
+        }
+
+        public async Task<IEnumerable<SubjectInstance>> GetBySubjectIdAsync(int subjectId, CancellationToken cancellationToken)
+        {
+            return await GetQuery()
+                .Where(si => si.SubjectId == subjectId)
+                .ToListAsync(cancellationToken);
         }
     }
 }

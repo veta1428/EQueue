@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Rey.EQueue.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Rey.EQueue.EF.Configuration
 {
@@ -18,7 +13,9 @@ namespace Rey.EQueue.EF.Configuration
                 .HasKey(t => t.Id)
                 .HasName(nameof(Timetable) + nameof(Timetable.Id));
 
-
+            builder
+                .HasOne<SubjectInstance>()
+                .WithMany(si => si.Timetables);
         }
     }
 }

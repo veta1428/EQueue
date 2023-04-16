@@ -9,6 +9,24 @@ namespace Rey.EQueue.Core.Entities
 {
     public class Teacher : Entity
     {
+        public Teacher()
+        {
+        }
+
+        public Teacher(
+            string firstName,
+            string lastName,
+            string? middleName = null,
+            string? description = null,
+            string? note = null)
+        {
+            FirstName = firstName;
+            MiddleName = middleName;
+            LastName = lastName;
+            Description = description;
+            Note = note;
+        }
+
         public string FirstName { get; set; } = null!;
 
         public string? MiddleName { get; set; }

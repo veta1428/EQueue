@@ -1,15 +1,17 @@
 ﻿using Rey.EQueue.Shared;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Rey.EQueue.Core.Entities
 {
     public class ScheduledClass : Entity
     {
-        public string? Description { get; set; }
+        public ScheduledClass() { }
+        public ScheduledClass(DateTime startTime, int duration, int subjectInstanceId, string? description)
+        {
+            StartTime = startTime;
+            Duration = duration;
+            SubjectInstanceId = subjectInstanceId;
+            Description = description;
+        }
 
         public DateTime StartTime { get; set; }
 
@@ -17,8 +19,10 @@ namespace Rey.EQueue.Core.Entities
 
         public int SubjectInstanceId { get; set; }
 
+        public string? Description { get; set; }
+
         public SubjectInstance? SubjectInstance { get; set; }
 
-        public ICollection<Queue>? Queues { get; set; }
+        public ICollection<Queue> Queues { get; set; } = new List<Queue>();
     }
 }

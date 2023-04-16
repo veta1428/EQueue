@@ -9,10 +9,18 @@ namespace Rey.EQueue.Core.Entities
 {
     public class Timetable : Entity
     {
+        public Timetable(){ }
+        public Timetable(DateTime appliedPeriodStart, DateTime appliedPeriodEnd, IEnumerable<Class>? classes)
+        {
+            AppliedPeriodStart = appliedPeriodStart;
+            AppliedPeriodEnd = appliedPeriodEnd;
+            Classes = classes;
+        }
+
         public DateTime AppliedPeriodStart { get; set; }
 
         public DateTime AppliedPeriodEnd { get; set; }
 
-        public ICollection<Class>? Classes { get; set; }
+        public IEnumerable<Class>? Classes { get; set; }
     }
 }

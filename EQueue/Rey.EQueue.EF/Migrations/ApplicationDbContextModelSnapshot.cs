@@ -168,15 +168,10 @@ namespace Rey.EQueue.EF.Migrations
                     b.Property<int>("SubjectId")
                         .HasColumnType("int");
 
-                    b.Property<int>("TimetableId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id")
                         .HasName("SubjectInstanceId");
 
                     b.HasIndex("SubjectId");
-
-                    b.HasIndex("TimetableId");
 
                     b.ToTable("SubjectInstances");
                 });
@@ -250,8 +245,13 @@ namespace Rey.EQueue.EF.Migrations
                     b.Property<DateTime>("AppliedPeriodStart")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("SubjectInstanceId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id")
                         .HasName("TimetableId");
+
+                    b.HasIndex("SubjectInstanceId");
 
                     b.ToTable("Timetables");
                 });
@@ -334,15 +334,7 @@ namespace Rey.EQueue.EF.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Rey.EQueue.Core.Entities.Timetable", "Timetable")
-                        .WithMany()
-                        .HasForeignKey("TimetableId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Subject");
-
-                    b.Navigation("Timetable");
                 });
 
             modelBuilder.Entity("Rey.EQueue.Core.Entities.SubjectInstanceTeacher", b =>
@@ -362,6 +354,13 @@ namespace Rey.EQueue.EF.Migrations
                     b.Navigation("SubjectInstance");
 
                     b.Navigation("Teacher");
+                });
+
+            modelBuilder.Entity("Rey.EQueue.Core.Entities.Timetable", b =>
+                {
+                    b.HasOne("Rey.EQueue.Core.Entities.SubjectInstance", null)
+                        .WithMany("Timetables")
+                        .HasForeignKey("SubjectInstanceId");
                 });
 
             modelBuilder.Entity("Rey.EQueue.Core.Entities.Queue", b =>
@@ -384,6 +383,8 @@ namespace Rey.EQueue.EF.Migrations
                     b.Navigation("ScheduledClasses");
 
                     b.Navigation("SubjectInstanceTeachers");
+
+                    b.Navigation("Timetables");
                 });
 
             modelBuilder.Entity("Rey.EQueue.Core.Entities.Teacher", b =>

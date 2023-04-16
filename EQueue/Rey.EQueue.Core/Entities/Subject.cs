@@ -5,20 +5,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Rey.EQueue.Core.Entities
+namespace Rey.EQueue.Core.Entities;
+
+public class Subject : Entity
 {
-    public class Subject : Entity
+    public Subject () { }
+    public Subject(string name, string? description)
     {
-        public Subject(string name, string? description)
-        {
-            Name = name;
-            Description = description;
-        }
-
-        public string Name { get; set; } = null!;
-        public string? Description { get; set; }
-
-        public ICollection<SubjectInstance> SubjectInstances { get; set; }
-
+        Name = name;
+        Description = description;
     }
+
+    public string Name { get; set; } = null!;
+    public string? Description { get; set; }
+
+    public ICollection<SubjectInstance>? SubjectInstances { get; set; }
+
 }

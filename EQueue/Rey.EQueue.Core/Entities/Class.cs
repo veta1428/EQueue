@@ -9,6 +9,13 @@ namespace Rey.EQueue.Core.Entities
 {
     public class Class : Entity
     {
+        public Class(DayOfWeek dayOfWeek, DateTime startTime, int duration)
+        {
+            DayOfWeek = dayOfWeek;
+            StartTime = startTime;
+            Duration = duration;
+        }
+
         public DayOfWeek DayOfWeek { get; set; }
 
         public DateTime StartTime { get; set; }

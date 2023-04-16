@@ -1,0 +1,53 @@
+<div *ngIf="isLoading; then loading else noLoading"></div>
+<ng-template #loading>
+    <div class="centered">
+        <mat-spinner></mat-spinner>
+    </div>
+</ng-template>
+<ng-template #noLoading>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Teacher #{{teacher!.id}}</mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <br>
+            <div>
+                <mat-form-field class="example-full-width">
+                    <mat-label>First Name</mat-label>
+                    <input matInput readonly value="{{teacher?.firstName}}">
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Middle Name</mat-label>
+                    <input matInput readonly value="{{teacher?.middleName}}">
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Last Name</mat-label>
+                    <input matInput readonly value="{{teacher?.lastName}}">
+                </mat-form-field>
+            </div>
+    
+            <div>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Description</mat-label>
+                    <input matInput readonly value="{{teacher?.description || '-'}}">
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Note</mat-label>
+                    <input matInput readonly value="{{teacher?.note || '-'}}">
+                </mat-form-field>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button color="primary">Edit</button>
+        </mat-card-actions>
+    </mat-card>
+    <view-subject-instances [dataSource]="dataSource"></view-subject-instances>
+    <button mat-raised-button color="primary">Add Subject Instance</button>
+</ng-template>

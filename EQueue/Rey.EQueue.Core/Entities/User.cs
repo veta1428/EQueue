@@ -1,5 +1,4 @@
-﻿using Rey.EQueue.Core.User;
-using Rey.EQueue.Shared;
+﻿using Rey.EQueue.Shared;
 using System;
 using System.Collections.Generic;
 using System.Linq;

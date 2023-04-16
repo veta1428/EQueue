@@ -1,8 +1,8 @@
-using Microsoft.AspNetCore.Authentication;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Rey.EQueue.Core.User;
 using Rey.EQueue.EF;
 using Rey.EQueue.Web.Extensions;
+using System.Reflection;
 
 namespace Rey.EQueue.Web
 {
@@ -18,13 +18,21 @@ namespace Rey.EQueue.Web
                 options.UseSqlServer(connectionString));
 
             builder.Services.ConfigureRepositories();
+            Console.WriteLine(Assembly.GetEntryAssembly().ToString());
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             builder.Services.AddAuthentication();
 
-            builder.Services.AddControllersWithViews();
-            builder.Services.AddRazorPages();
+            builder.Services.AddControllers();
+
+            var domainAssemblies = AppDomain.CurrentDomain.GetAssemblies();
+            foreach (var assembly in domainAssemblies)
+            {
+                Console.WriteLine(assembly.FullName);
+            }
+
+            builder.Services.AddMediatR(domainAssemblies);
 
             var app = builder.Build();
 
@@ -51,10 +59,25 @@ namespace Rey.EQueue.Web
             app.UseAuthentication();
             app.UseAuthorization();
 
-            //app.MapControllerRoute(
-            //    name: "default",
-            //    pattern: "{controller}/{action=Index}/{id?}");
+            app.Use((co, to) =>
+            {
+                int a = 9;
+                return to(co);
+            });
 
+            app.MapControllers();
+            //app.UseSpa(spa =>
+            //{
+            //    // To learn more about options for serving an Angular SPA from ASP.NET Core,
+            //    // see https://go.microsoft.com/fwlink/?linkid=864501
+            //    spa.Options.SourcePath = "PracticeAppClient";
+
+            //    if (Environment.IsLocal())
+            //    {
+            //        // spa.UseAngularCliServer(npmScript: "start");
+            //        spa.UseProxyToSpaDevelopmentServer("http://localhost:4203");
+            //    }
+            //});
             //app.MapRazorPages();
 
             //app.MapFallbackToFile("index.html");

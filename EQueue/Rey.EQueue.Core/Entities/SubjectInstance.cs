@@ -1,9 +1,4 @@
 ﻿using Rey.EQueue.Shared;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Rey.EQueue.Core.Entities
 {
@@ -13,15 +8,13 @@ namespace Rey.EQueue.Core.Entities
 
         public Subject? Subject { get; set; }
 
-        public int TimetableId { get; set; }
-
-        public Timetable? Timetable { get; set; }
+        public ICollection<Timetable> Timetables { get; set; } = new List<Timetable>();
 
         public string? Description { get; set; }
 
         public string Name { get; set; } = null!;
 
-        public ICollection<SubjectInstanceTeacher>? SubjectInstanceTeachers { get; set; }
+        public ICollection<SubjectInstanceTeacher> SubjectInstanceTeachers { get; set; } = new List<SubjectInstanceTeacher>();
 
         public ICollection<ScheduledClass>? ScheduledClasses { get; set; }
     }

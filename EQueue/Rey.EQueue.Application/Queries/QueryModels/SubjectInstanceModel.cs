@@ -4,7 +4,7 @@
     {
         public int Id { get; init; }
 
-        public List<string> Timetable { get; init; } = new List<string>();
+        public IEnumerable<ClassModel> Classes { get; init; } = new List<ClassModel>();
 
         public string? InstanceDescription { get; init; }
 

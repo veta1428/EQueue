@@ -26,6 +26,7 @@ import { ViewTeacherComponent } from './teacher/view-teacher/view-teacher.compon
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ViewSubjectInstancesComponent } from './subject-instance/view-subject-instances/view-subject-instances.component';
+import { ViewSubjectComponent } from './subject/view-subject/view-subject.component';
 
 @NgModule({
     declarations: [
@@ -38,6 +39,7 @@ import { ViewSubjectInstancesComponent } from './subject-instance/view-subject-i
         ViewSubjectsComponent,
         ViewTeacherComponent,
         ViewSubjectInstancesComponent,
+        ViewSubjectComponent,
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -59,7 +61,8 @@ import { ViewSubjectInstancesComponent } from './subject-instance/view-subject-i
             { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
             { path: 'view-teachers', component: ViewTeachersComponent },
             { path: 'view-subjects', component: ViewSubjectsComponent },
-            { path: 'view-teacher/:id', component: ViewTeacherComponent}
+            { path: 'view-teacher/:id', component: ViewTeacherComponent},
+            { path: 'view-subject/:id', component: ViewSubjectComponent }
         ])
     ],
     bootstrap: [AppComponent]

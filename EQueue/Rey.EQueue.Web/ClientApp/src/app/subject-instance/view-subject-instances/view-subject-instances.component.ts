@@ -11,19 +11,15 @@ import { SubjectInstance, SubjectInstanceList } from '../../models/subject-insta
 export class ViewSubjectInstancesComponent {
 
     public displayedColumns: String[] = ['id', 'instanceName', 'timetable', 'instanceDescription', 'actions'];
-    public isLoading: boolean = true;
 
     @Input() dataSource: SubjectInstance[] = [];
 
-    public getString(timetables: String[]) : String
+    public get hasData() : boolean
     {
-        console.log(timetables.join("\r\n"));
-        return timetables.join("\r\n");
+        return this.dataSource.length > 0;
     }
     
     constructor(private _http: HttpClient, private _cdr: ChangeDetectorRef, private _router: Router) {
-        console.log('in comp table');
-        console.log(this.dataSource);
         // _http.get<SubjectInstanceList>('/api/subjectinstance/teacher/').subscribe((teachers: TeacherList) => { 
         //     this.dataSource = teachers.teachers;
         //     this.isLoading = false;
@@ -33,6 +29,5 @@ export class ViewSubjectInstancesComponent {
 
     ngOnInit()
     {
-        console.log(this.dataSource);
     }
 }

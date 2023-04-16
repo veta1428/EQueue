@@ -1,5 +1,5 @@
 <h1>Subject Instances</h1>
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+<table mat-table [dataSource]="dataSource" *ngIf="hasData; else noData" class="mat-elevation-z8">
     <!--- Note that these columns can be defined in any order.
               The actual rendered columns are set as a property on the row definition" -->
     <!-- Position Column -->
@@ -22,7 +22,11 @@
     <div class="column">
         <ng-container matColumnDef="timetable">
             <th mat-header-cell *matHeaderCellDef>Timetable</th>
-            <td mat-cell *matCellDef="let element"> {{getString(element?.timetable)}} </td>
+            <td mat-cell *matCellDef="let element"> 
+                <div *ngFor="let class of element.classes" class="eq-timetable">
+                    {{class.dayOfWeek}} at {{class.startTime}} ({{class.duration}} min)
+                </div>
+            </td>
         </ng-container>
     </div>
 
@@ -33,15 +37,26 @@
             <td mat-cell *matCellDef="let element"> {{element?.instanceDescription}} </td>
         </ng-container>
     </div>
-<!-- 
+
     <div class="column">
         <ng-container matColumnDef="actions">
-            <td mat-cell> 
-                <button mat-raised-button color="primary">Edit</button>
+            <th mat-header-cell *matHeaderCellDef>Actions</th>
+            <td mat-cell *matCellDef="let element"> 
+                <div>
+                    <button mat-raised-button color="primary" class="eq-buttons">Remove</button>
+                </div>
+                <div>
+                    <button mat-raised-button color="primary" class="eq-buttons">Edit</button>
+                </div>
             </td>
         </ng-container>
-    </div> -->
+    </div>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 </table>
+<ng-template #noData>
+    <div>
+        No data found.
+    </div>
+</ng-template>

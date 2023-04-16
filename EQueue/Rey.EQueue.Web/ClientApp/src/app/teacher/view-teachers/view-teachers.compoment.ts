@@ -14,8 +14,6 @@ export class ViewTeachersComponent {
     public isLoading: boolean = true;
 
     constructor(private _http: HttpClient, private _cdr: ChangeDetectorRef, private _router: Router) {
-        console.log('in comp');
-
         _http.get<TeacherList>('/api/teacher/teachers').subscribe((teachers: TeacherList) => { 
             this.dataSource = teachers.teachers;
             this.isLoading = false;
@@ -26,6 +24,5 @@ export class ViewTeachersComponent {
     public getTeacher(row: Teacher)
     {
         this._router.navigate([`/view-teacher/${row.id}`]);
-        console.log(row);
     }
 }

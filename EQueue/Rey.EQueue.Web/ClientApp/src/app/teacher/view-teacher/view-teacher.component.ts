@@ -28,7 +28,6 @@ export class ViewTeacherComponent implements OnInit, OnDestroy {
             this._http.get<SubjectInstanceList>(`/api/subjectinstance/teacher/${this.teacherId}`).subscribe((subjectInstances: SubjectInstanceList) => { 
                 this.dataSource = subjectInstances.subjectInstances;
                 this.teacher = teacher;
-                console.log(this.dataSource);
                 this.isLoading = false;
                 this._cdr.detectChanges();
                 this._cdr.markForCheck();

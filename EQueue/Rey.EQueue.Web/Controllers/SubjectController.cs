@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Rey.EQueue.Application.Commands.Commands;
 using Rey.EQueue.Application.Queries.Queries;
+using Rey.EQueue.Application.Queries.QueryModels;
 using Rey.EQueue.Application.Queries.QueryResults;
 
 namespace Rey.EQueue.Web.Controllers
@@ -31,6 +32,13 @@ namespace Rey.EQueue.Web.Controllers
         public Task<GetSubjectsQueryResult> GetSubjects(CancellationToken cancellationToken)
         {
             return _mediator.Send(new GetSubjectsQuery(), cancellationToken);
+        }
+
+        [HttpGet(Name = "GetSubjects")]
+        [Route("{id}")]
+        public Task<SubjectModel> GetSubject(int id, CancellationToken cancellationToken)
+        {
+            return _mediator.Send(new GetSubjectQuery(id), cancellationToken);
         }
     }
 }

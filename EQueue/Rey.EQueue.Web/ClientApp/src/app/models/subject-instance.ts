@@ -1,7 +1,7 @@
 export interface SubjectInstance
 {
     id: number;
-    timetable: String | null; 
+    classes: Class[]; 
     instanceDescription: String | null;
     instanceName: String[];
 }
@@ -9,4 +9,11 @@ export interface SubjectInstance
 export interface SubjectInstanceList
 {
     subjectInstances: SubjectInstance[];
+}
+
+export interface Class
+{
+    dayOfWeek: string;
+    startTime: string;
+    duration: number;
 }

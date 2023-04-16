@@ -19,6 +19,8 @@ namespace Rey.EQueue.EF.Repositories
         {
             return await GetQuery()
                 .Where(si => si.SubjectId == subjectId)
+                .Include(si => si.Timetables)
+                .ThenInclude(tt => tt.Classes)
                 .ToListAsync(cancellationToken);
         }
     }

@@ -28,26 +28,23 @@ namespace Rey.EQueue.Application.Queries.QueryHandlers
                 Id = sit.SubjectInstance.Id, 
                 InstanceDescription = sit.SubjectInstance.Description, 
                 InstanceName = sit.SubjectInstance.Name, 
-                Timetable = GetTimetableAsString(sit.SubjectInstance.Timetables) 
+                Classes = GetActualClasses(sit.SubjectInstance.Timetables) 
             });
 
             return new GetSubjectInstancesQueryResult(sitModels);
         }
 
-        private List<string> GetTimetableAsString(ICollection<Timetable>? timetables)
+        private IEnumerable<ClassModel> GetActualClasses(ICollection<Timetable>? timetables)
         {
-            if(timetables is null)
-            {
-                return new List<string>();
-            }
+            if (timetables is null)
+                return new List<ClassModel>();
+
             var activeTimetable = timetables.Where(t => t.AppliedPeriodStart < DateTime.UtcNow && t.AppliedPeriodEnd > DateTime.UtcNow).FirstOrDefault();
 
             if (activeTimetable is null)
-            {
-                return new List<string>();
-            }
+                return new List<ClassModel>();
 
-            return activeTimetable.Classes?.Select(c => c.DayOfWeek.ToString() + " at " + c.StartTime.ToString("HH:mm (") + c.Duration.ToString() + " min)").ToList() ?? new List<string>();
+            return activeTimetable.Classes?.Select(@class => new ClassModel() { DayOfWeek = @class.DayOfWeek.ToString(), Duration = @class.Duration, StartTime = @class.StartTime }) ?? new List<ClassModel>();
         }
     }
 }

@@ -59,12 +59,6 @@ namespace Rey.EQueue.Web
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.Use((co, to) =>
-            {
-                int a = 9;
-                return to(co);
-            });
-
             app.MapControllers();
             //app.UseSpa(spa =>
             //{

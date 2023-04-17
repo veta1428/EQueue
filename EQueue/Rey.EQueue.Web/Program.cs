@@ -1,8 +1,12 @@
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Rey.EQueue.Core.User;
 using Rey.EQueue.EF;
 using Rey.EQueue.Web.Extensions;
 using System.Reflection;
+using Rey.EQueue.Web.Services;
+using Rey.EQueue.Application.Services;
 
 namespace Rey.EQueue.Web
 {
@@ -23,14 +27,28 @@ namespace Rey.EQueue.Web
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
             builder.Services.AddAuthentication();
+            builder.Services.AddRazorPages();
 
-            builder.Services.AddControllers();
+            builder.Services.AddScoped<IUserAccessor, UserAccessor>();
+
+            builder.Services
+                .AddIdentity<ApplicationUser, IdentityRole>(opts => {
+                    opts.Password.RequiredLength = 3;
+                    opts.Password.RequireNonAlphanumeric = false;
+                    opts.Password.RequireLowercase = false;
+                    opts.Password.RequireUppercase = false;
+                    opts.Password.RequireDigit = false;
+                })
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            builder.Services.AddControllersWithViews();
 
             var domainAssemblies = AppDomain.CurrentDomain.GetAssemblies();
-            foreach (var assembly in domainAssemblies)
-            {
-                Console.WriteLine(assembly.FullName);
-            }
+
+            //foreach (var assembly in domainAssemblies)
+            //{
+            //    Console.WriteLine(assembly.FullName);
+            //}
 
             builder.Services.AddMediatR(domainAssemblies);
 
@@ -59,20 +77,28 @@ namespace Rey.EQueue.Web
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.MapControllers();
-            //app.UseSpa(spa =>
-            //{
-            //    // To learn more about options for serving an Angular SPA from ASP.NET Core,
-            //    // see https://go.microsoft.com/fwlink/?linkid=864501
-            //    spa.Options.SourcePath = "PracticeAppClient";
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
 
-            //    if (Environment.IsLocal())
-            //    {
-            //        // spa.UseAngularCliServer(npmScript: "start");
-            //        spa.UseProxyToSpaDevelopmentServer("http://localhost:4203");
-            //    }
-            //});
-            //app.MapRazorPages();
+            app.MapControllers();
+
+            app.UseSpa(spa =>
+            {
+                // To learn more about options for serving an Angular SPA from ASP.NET Core,
+                // see https://go.microsoft.com/fwlink/?linkid=864501
+                spa.Options.SourcePath = "ClientApp";
+
+                //if (env.IsDevelopment())
+                //{
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200/");
+                //}
+            });
+
+            app.MapRazorPages();
 
             //app.MapFallbackToFile("index.html");
 

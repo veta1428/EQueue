@@ -27,6 +27,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ViewSubjectInstancesComponent } from './subject-instance/view-subject-instances/view-subject-instances.component';
 import { ViewSubjectComponent } from './subject/view-subject/view-subject.component';
+import { AuthGuardService } from 'src/auth/auth-guard.service';
 
 @NgModule({
     declarations: [
@@ -56,15 +57,16 @@ import { ViewSubjectComponent } from './subject/view-subject/view-subject.compon
         MatProgressSpinnerModule,
         ApiAuthorizationModule,
         RouterModule.forRoot([
-            { path: '', component: HomeComponent, pathMatch: 'full' },
-            { path: 'counter', component: CounterComponent },
-            { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthorizeGuard] },
-            { path: 'view-teachers', component: ViewTeachersComponent },
-            { path: 'view-subjects', component: ViewSubjectsComponent },
-            { path: 'view-teacher/:id', component: ViewTeacherComponent},
-            { path: 'view-subject/:id', component: ViewSubjectComponent }
+            { path: '', component: HomeComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
+            { path: 'counter', component: CounterComponent, canActivate: [AuthGuardService] },
+            { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthGuardService] },
+            { path: 'view-teachers', component: ViewTeachersComponent, canActivate: [AuthGuardService] },
+            { path: 'view-subjects', component: ViewSubjectsComponent, canActivate: [AuthGuardService] },
+            { path: 'view-teacher/:id', component: ViewTeacherComponent, canActivate: [AuthGuardService]},
+            { path: 'view-subject/:id', component: ViewSubjectComponent, canActivate: [AuthGuardService] }
         ])
     ],
+    providers: [AuthGuardService],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

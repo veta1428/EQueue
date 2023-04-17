@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Rey.EQueue.Core.Entities;
+using Rey.EQueue.Core.User;
 using Rey.EQueue.EF.Configuration;
 
 namespace Rey.EQueue.EF
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions options)
             : base(options)
@@ -34,6 +36,7 @@ namespace Rey.EQueue.EF
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration<Class>(new ClassConfiguration());
             modelBuilder.ApplyConfiguration<Queue>(new QueueConfiguration());
             modelBuilder.ApplyConfiguration<Record>(new RecordConfiguration());

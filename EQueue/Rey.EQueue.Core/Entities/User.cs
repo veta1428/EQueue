@@ -1,9 +1,4 @@
 ﻿using Rey.EQueue.Shared;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Rey.EQueue.Core.Entities
 {
@@ -14,5 +9,7 @@ namespace Rey.EQueue.Core.Entities
         public string? LastName { get; set; }
 
         public ICollection<Record> Records { get; set; } = null!;
+
+        public string ApplicationUserId { get; set; } = null!;
     }
 }

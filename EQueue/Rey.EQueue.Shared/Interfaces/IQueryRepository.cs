@@ -17,5 +17,7 @@ namespace Rey.EQueue.Shared.Interfaces
         Task<IEnumerable<TEntity>> GetByIdsAsync(IEnumerable<TId> ids, CancellationToken cancellationToken);
 
         Task<IEnumerable<TEntity>> GetAsync(CancellationToken cancellationToken);
+
+        IQueryable<TEntity> GetQuery();
     }
 }

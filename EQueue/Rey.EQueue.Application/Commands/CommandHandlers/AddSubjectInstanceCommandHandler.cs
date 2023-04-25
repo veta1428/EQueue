@@ -28,7 +28,7 @@ namespace Rey.EQueue.Application.Commands.CommandHandlers
 
             var teachers = new List<Teacher>();
 
-            foreach (var id in request.Teachers)
+            foreach (var id in request.TeacherIds)
             {
                 var teacher = await _teacherRepository.FindByIdAsync(id, cancellationToken);
                 teachers.Add(teacher);

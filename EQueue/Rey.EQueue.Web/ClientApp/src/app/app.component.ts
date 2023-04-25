@@ -1,7 +1,7 @@
 
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/auth/auth.service';
-import { UserModel } from 'src/auth/models/user';
+import { AuthService } from '../auth/auth.service';
+import { UserModel } from '../auth/models/user';
 
 @Component({
     selector: 'app-root',

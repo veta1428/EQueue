@@ -9,3 +9,9 @@ export interface SubjectList
 {
     subjects: Subject[];
 }
+
+export interface AddSubjectModel
+{
+    name: string;
+    description: string;
+}

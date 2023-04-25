@@ -222,7 +222,7 @@ namespace Rey.EQueue.EF.Migrations
                     b.Property<DateTime>("CreationDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("PrevRecordId")
+                    b.Property<int?>("NextRecordId")
                         .HasColumnType("int");
 
                     b.Property<int>("QueueId")
@@ -235,6 +235,8 @@ namespace Rey.EQueue.EF.Migrations
                         .HasName("RecordId");
 
                     b.HasIndex("QueueId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Records");
                 });
@@ -562,13 +564,15 @@ namespace Rey.EQueue.EF.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Rey.EQueue.Core.Entities.User", null)
+                    b.HasOne("Rey.EQueue.Core.Entities.User", "User")
                         .WithMany("Records")
-                        .HasForeignKey("QueueId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Queue");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Rey.EQueue.Core.Entities.ScheduledClass", b =>

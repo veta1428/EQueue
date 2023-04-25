@@ -1,12 +1,12 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Rey.EQueue.Application.Commands.Commands;
 using Rey.EQueue.Application.Queries.Queries;
 using Rey.EQueue.Application.Queries.QueryResults;
 
 namespace Rey.EQueue.Web.Controllers
 {
-    [AllowAnonymous]
     [ApiController]
     [Route("api/[controller]")]
     public class SubjectInstanceController : ControllerBase
@@ -16,6 +16,13 @@ namespace Rey.EQueue.Web.Controllers
         public SubjectInstanceController(IMediator mediator)
         {
             _mediator = mediator;
+        }
+
+        [HttpPost(Name = "AddSubjectInstance")]
+        [Route("add")]
+        public async Task<int> AddSubjectInstance([FromBody] AddSubjectInstanceCommand subjectInstance, CancellationToken cancellationToken)
+        {
+            return await _mediator.Send(subjectInstance, cancellationToken);
         }
 
         [HttpGet(Name = "GetSubjectInstanceByTeacher")]

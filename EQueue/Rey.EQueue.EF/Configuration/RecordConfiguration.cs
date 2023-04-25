@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Rey.EQueue.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Rey.EQueue.EF.Configuration
 {
@@ -24,9 +19,9 @@ namespace Rey.EQueue.EF.Configuration
                 .HasForeignKey(r => r.QueueId);
 
             builder
-                .HasOne<User>()
+                .HasOne<User>(u => u.User)
                 .WithMany(u => u.Records)
-                .HasForeignKey(r => r.QueueId);
+                .HasForeignKey(r => r.UserId);
         }
     }
 }

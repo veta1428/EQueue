@@ -1,0 +1,99 @@
+<div *ngIf="isLoading; then loading else noLoading"></div>
+<ng-template #loading>
+    <div class="centered">
+        <mat-spinner></mat-spinner>
+    </div>
+</ng-template>
+<ng-template #noLoading>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Queue #{{queue!.queueId}}</mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <br>
+            <div>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Subject Instance Name</mat-label>
+                    <input matInput readonly value="{{queue?.subjectInstanceName}}">
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Start Time</mat-label>
+                    <input matInput readonly value="{{queue?.startTime}}">
+                </mat-form-field>
+            </div>
+            <div>
+                <mat-form-field class="example-full-width">
+                    <mat-label>People In</mat-label>
+                    <input matInput readonly value="{{queue?.records?.length}}">
+                </mat-form-field>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button color="primary">Edit</button>
+        </mat-card-actions>
+    </mat-card>
+    <br />
+
+    <table mat-table [dataSource]="dataSource" *ngIf="hasData; else noData" class="mat-elevation-z8">
+        <!--- Note that these columns can be defined in any order.
+                  The actual rendered columns are set as a property on the row definition" -->
+        <!-- Position Column -->
+
+        <div class="column">
+            <ng-container matColumnDef="position">
+                <th mat-header-cell *matHeaderCellDef>Position</th>
+                <td mat-cell *matCellDef="let element"> {{element?.position}} </td>
+            </ng-container>
+        </div>
+
+        <div class="column">
+            <ng-container matColumnDef="studentFirstName">
+                <th mat-header-cell *matHeaderCellDef>First Name</th>
+                <td mat-cell *matCellDef="let element"> {{element?.studentFirstName}} </td>
+            </ng-container>
+        </div>
+
+        <div class="column">
+            <ng-container matColumnDef="studentLastName">
+                <th mat-header-cell *matHeaderCellDef>Last Name</th>
+                <td mat-cell *matCellDef="let element"> {{element?.studentLastName}} </td>
+            </ng-container>
+        </div>
+
+        <div class="column">
+            <ng-container matColumnDef="created">
+                <th mat-header-cell *matHeaderCellDef>Added</th>
+                <td mat-cell *matCellDef="let element"> {{element?.created}} </td>
+            </ng-container>
+        </div>
+
+        <div class="column">
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef>Actions</th>
+                <td mat-cell *matCellDef="let element">
+                    <div *ngIf="!element?.isCurrentUser">
+                        <button mat-raised-button color="primary" class="eq-buttons">Send Change Request</button>
+                    </div>
+                </td>
+            </ng-container>
+        </div>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row [style.background-color]="(row.isCurrentUser) ? '#adadad' : ''"
+            *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <div *ngIf="!userInQueue()" class="eq-buttons">
+        <button mat-raised-button color="primary" class="eq-button" (click)="addUser()" >Add to Queue</button>
+    </div>
+    <div *ngIf="userInQueue()" class="eq-buttons">
+        <button mat-raised-button color="primary" class="eq-button" (click)="removeUser()" >Delete from Queue</button>
+    </div>
+</ng-template>
+<ng-template #noData>
+    <div>
+        No data found.
+    </div>
+</ng-template>

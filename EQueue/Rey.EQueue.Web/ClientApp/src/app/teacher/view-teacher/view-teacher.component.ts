@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Teacher, TeacherList } from '../../models/teacher'
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { SubjectInstance, SubjectInstanceList } from '../../models/subject-instance';
 
@@ -17,7 +17,11 @@ export class ViewTeacherComponent implements OnInit, OnDestroy {
     private subsciption: Subscription = new Subscription();
     public isLoading: boolean = true;
     public dataSource: SubjectInstance[] = [];
-    constructor(private _http: HttpClient, private _cdr: ChangeDetectorRef, private _activateRoute: ActivatedRoute) 
+    constructor(
+        private _http: HttpClient, 
+        private _cdr: ChangeDetectorRef, 
+        private _activateRoute: ActivatedRoute, 
+        private _router: Router) 
     {
         this.subsciption.add(_activateRoute.params.subscribe(params => this.teacherId = params['id']));
     }
@@ -40,5 +44,10 @@ export class ViewTeacherComponent implements OnInit, OnDestroy {
     ngOnDestroy()
     {
         this.subsciption.unsubscribe();
+    }
+
+    addSubjectInstance()
+    {
+        this._router.navigate(['add-subject-instance']);
     }
 }

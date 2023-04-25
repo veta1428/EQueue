@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
@@ -28,6 +28,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ViewSubjectInstancesComponent } from './subject-instance/view-subject-instances/view-subject-instances.component';
 import { ViewSubjectComponent } from './subject/view-subject/view-subject.component';
 import { AuthGuardService } from 'src/auth/auth-guard.service';
+import { ViewQueuesComponent } from './queue/view-queues/view-queues.component';
+import { ViewQueueComponent } from './queue/view-queue/view-queue.component';
+import { AddTeacherDialogComponent } from './teacher/add-teacher-dialog/add-teacher-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { AddSubjectInstanceComponent } from './subject-instance/add-subject-instance/add-subject-instance.component';
+import { MatSelectModule } from '@angular/material/select';
+import { AddSubjectDialogComponent } from './subject/add-subject-dialog/add-subject-dialog.component';
 
 @NgModule({
     declarations: [
@@ -41,6 +48,11 @@ import { AuthGuardService } from 'src/auth/auth-guard.service';
         ViewTeacherComponent,
         ViewSubjectInstancesComponent,
         ViewSubjectComponent,
+        ViewQueuesComponent,
+        ViewQueueComponent,
+        AddTeacherDialogComponent,
+        AddSubjectInstanceComponent,
+        AddSubjectDialogComponent
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -54,16 +66,22 @@ import { AuthGuardService } from 'src/auth/auth-guard.service';
         MatInputModule,
         MatDividerModule,
         MatButtonModule,
+        ReactiveFormsModule,
         MatProgressSpinnerModule,
+        MatDialogModule,
+        MatSelectModule,
         ApiAuthorizationModule,
         RouterModule.forRoot([
-            { path: '', component: HomeComponent, pathMatch: 'full', canActivate: [AuthGuardService]},
+            { path: 'queues', component: ViewQueuesComponent, canActivate: [AuthGuardService]},
             { path: 'counter', component: CounterComponent, canActivate: [AuthGuardService] },
             { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthGuardService] },
             { path: 'view-teachers', component: ViewTeachersComponent, canActivate: [AuthGuardService] },
             { path: 'view-subjects', component: ViewSubjectsComponent, canActivate: [AuthGuardService] },
             { path: 'view-teacher/:id', component: ViewTeacherComponent, canActivate: [AuthGuardService]},
-            { path: 'view-subject/:id', component: ViewSubjectComponent, canActivate: [AuthGuardService] }
+            { path: 'view-subject/:id', component: ViewSubjectComponent, canActivate: [AuthGuardService] },
+            { path: 'view-queue/:id', component: ViewQueueComponent, canActivate: [AuthGuardService]},
+            { path: 'add-subject-instance', component: AddSubjectInstanceComponent, canActivate: [AuthGuardService]},
+            { path: '**', redirectTo: '/queues', pathMatch: 'full'}
         ])
     ],
     providers: [AuthGuardService],

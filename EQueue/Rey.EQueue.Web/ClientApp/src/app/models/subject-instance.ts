@@ -17,3 +17,11 @@ export interface Class
     startTime: string;
     duration: number;
 }
+
+export interface AddSubjectInstanceModel
+{
+    name: string;
+    description: string | null;
+    subjectId: number;
+    teacherIds: number[];
+}

@@ -30,7 +30,7 @@ namespace Rey.EQueue.Shared.EF
                 await Context.SaveChangesAsync(cancellationToken);
         }
 
-        protected virtual IQueryable<TDbEntity> GetQuery()
+        public virtual IQueryable<TDbEntity> GetQuery()
         {
             return DbSet;
         }

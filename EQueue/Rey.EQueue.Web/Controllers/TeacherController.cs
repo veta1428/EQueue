@@ -8,7 +8,6 @@ using Rey.EQueue.Application.Queries.QueryResults;
 
 namespace Rey.EQueue.Web.Controllers
 {
-    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController]
     public class TeacherController : ControllerBase

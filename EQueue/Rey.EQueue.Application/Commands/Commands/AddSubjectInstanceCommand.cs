@@ -8,12 +8,12 @@ namespace Rey.EQueue.Application.Commands.Commands
             string name, 
             string? description, 
             int subjectId, 
-            IEnumerable<int> teachers)
+            IEnumerable<int> teacherIds)
         {
             Name = name;
             Description = description;
             SubjectId = subjectId;
-            Teachers = teachers;
+            TeacherIds = teacherIds;
         }
 
         public string Name { get; set; } = null!;
@@ -22,6 +22,6 @@ namespace Rey.EQueue.Application.Commands.Commands
 
         public int SubjectId { get; set; }
 
-        public IEnumerable<int> Teachers { get; set; } = new List<int>();
+        public IEnumerable<int> TeacherIds { get; set; } = new List<int>();
     }
 }

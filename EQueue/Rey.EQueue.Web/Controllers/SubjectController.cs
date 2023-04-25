@@ -8,7 +8,6 @@ using Rey.EQueue.Application.Queries.QueryResults;
 
 namespace Rey.EQueue.Web.Controllers
 {
-    [AllowAnonymous]
     [ApiController]
     [Route("api/[controller]")]
     public class SubjectController : ControllerBase
@@ -22,7 +21,7 @@ namespace Rey.EQueue.Web.Controllers
 
         [HttpPost(Name = "AddSubject")]
         [Route("add-subject")]
-        public async Task<int> AddTeacher([FromBody] AddTeacherCommand command, CancellationToken cancellationToken)
+        public async Task<int> AddSubject([FromBody] AddSubjectCommand command, CancellationToken cancellationToken)
         {
             return await _mediator.Send(command, cancellationToken);
         }
@@ -34,7 +33,7 @@ namespace Rey.EQueue.Web.Controllers
             return _mediator.Send(new GetSubjectsQuery(), cancellationToken);
         }
 
-        [HttpGet(Name = "GetSubjects")]
+        [HttpGet(Name = "GetSubject")]
         [Route("{id}")]
         public Task<SubjectModel> GetSubject(int id, CancellationToken cancellationToken)
         {

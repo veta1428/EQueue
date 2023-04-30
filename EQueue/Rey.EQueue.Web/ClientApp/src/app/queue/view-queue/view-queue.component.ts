@@ -4,6 +4,8 @@ import { Subscription } from 'rxjs/internal/Subscription';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { QueueService } from '../queue.service';
+import {Moment} from 'moment';
+import moment from 'moment';
 
 @Component({
     selector: 'app-view-queue',
@@ -42,11 +44,17 @@ export class ViewQueueComponent implements OnInit, OnDestroy {
         return false;
     }
 
+    public getDateFormatted(date: string)
+    {
+        return moment.utc(date).local().format('DD.MM.yyyy h:mm:ss a');
+    }
+
     ngOnInit()
     {
         this._queueService.getQueueDetailes(this.queueId).subscribe((q: DetailedQueueModel)=>{
             console.log(q);
             this.dataSource = q.records;
+            console.log(this.dataSource);
             this.queue = q;
             this.isLoading = false;
             this._cdr.detectChanges();

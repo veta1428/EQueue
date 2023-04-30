@@ -21,7 +21,7 @@ namespace Rey.EQueue.EF.Configuration
             builder
                 .HasOne<SubjectInstance>(sc => sc.SubjectInstance)
                 .WithMany(si => si.ScheduledClasses)
-                .HasForeignKey(s => s.Id);
+                .HasForeignKey(s => s.SubjectInstanceId);
         }
     }
 }

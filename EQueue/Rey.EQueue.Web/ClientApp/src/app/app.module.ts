@@ -35,6 +35,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { AddSubjectInstanceComponent } from './subject-instance/add-subject-instance/add-subject-instance.component';
 import { MatSelectModule } from '@angular/material/select';
 import { AddSubjectDialogComponent } from './subject/add-subject-dialog/add-subject-dialog.component';
+import { AddQueueComponent } from './queue/add-queue/add-queue.component';
 
 @NgModule({
     declarations: [
@@ -52,7 +53,8 @@ import { AddSubjectDialogComponent } from './subject/add-subject-dialog/add-subj
         ViewQueueComponent,
         AddTeacherDialogComponent,
         AddSubjectInstanceComponent,
-        AddSubjectDialogComponent
+        AddSubjectDialogComponent,
+        AddQueueComponent
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -72,7 +74,7 @@ import { AddSubjectDialogComponent } from './subject/add-subject-dialog/add-subj
         MatSelectModule,
         ApiAuthorizationModule,
         RouterModule.forRoot([
-            { path: 'queues', component: ViewQueuesComponent, canActivate: [AuthGuardService]},
+            { path: 'queues/:mode', component: ViewQueuesComponent, canActivate: [AuthGuardService]},
             { path: 'counter', component: CounterComponent, canActivate: [AuthGuardService] },
             { path: 'fetch-data', component: FetchDataComponent, canActivate: [AuthGuardService] },
             { path: 'view-teachers', component: ViewTeachersComponent, canActivate: [AuthGuardService] },
@@ -81,7 +83,8 @@ import { AddSubjectDialogComponent } from './subject/add-subject-dialog/add-subj
             { path: 'view-subject/:id', component: ViewSubjectComponent, canActivate: [AuthGuardService] },
             { path: 'view-queue/:id', component: ViewQueueComponent, canActivate: [AuthGuardService]},
             { path: 'add-subject-instance', component: AddSubjectInstanceComponent, canActivate: [AuthGuardService]},
-            { path: '**', redirectTo: '/queues', pathMatch: 'full'}
+            { path: 'add-queue', component: AddQueueComponent, canActivate: [AuthGuardService]},
+            { path: '**', redirectTo: '/queues/active', pathMatch: 'full'}
         ])
     ],
     providers: [AuthGuardService],

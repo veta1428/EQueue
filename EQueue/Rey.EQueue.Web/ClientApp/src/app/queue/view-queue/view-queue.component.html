@@ -21,7 +21,7 @@
             <div>
                 <mat-form-field class="example-full-width">
                     <mat-label>Start Time</mat-label>
-                    <input matInput readonly value="{{queue?.startTime}}">
+                    <input matInput readonly value="{{getDateFormatted(queue?.startTime!)}}">
                 </mat-form-field>
             </div>
             <div>
@@ -32,11 +32,13 @@
             </div>
         </mat-card-content>
         <mat-card-actions>
-            <button mat-raised-button color="primary">Edit</button>
+            <div>
+                <button *ngIf="queue?.isActive" mat-raised-button color="primary">Edit</button>
+            </div>
         </mat-card-actions>
     </mat-card>
     <br />
-
+    <h2>Records</h2>
     <table mat-table [dataSource]="dataSource" *ngIf="hasData; else noData" class="mat-elevation-z8">
         <!--- Note that these columns can be defined in any order.
                   The actual rendered columns are set as a property on the row definition" -->
@@ -66,7 +68,7 @@
         <div class="column">
             <ng-container matColumnDef="created">
                 <th mat-header-cell *matHeaderCellDef>Added</th>
-                <td mat-cell *matCellDef="let element"> {{element?.created}} </td>
+                <td mat-cell *matCellDef="let element"> {{getDateFormatted(element?.created)}} </td>
             </ng-container>
         </div>
 
@@ -85,10 +87,10 @@
         <tr mat-row [style.background-color]="(row.isCurrentUser) ? '#adadad' : ''"
             *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
-    <div *ngIf="!userInQueue()" class="eq-buttons">
+    <div *ngIf="!userInQueue() && queue?.isActive" class="eq-buttons">
         <button mat-raised-button color="primary" class="eq-button" (click)="addUser()" >Add to Queue</button>
     </div>
-    <div *ngIf="userInQueue()" class="eq-buttons">
+    <div *ngIf="userInQueue() && queue?.isActive" class="eq-buttons">
         <button mat-raised-button color="primary" class="eq-button" (click)="removeUser()" >Delete from Queue</button>
     </div>
 </ng-template>

@@ -26,7 +26,7 @@
             </div>
         </mat-card-content>
         <mat-card-actions>
-            <button mat-raised-button color="primary">Edit</button>
+            <button mat-raised-button color="primary" (click)="onEditClick()">Edit</button>
         </mat-card-actions>
     </mat-card>
     <view-subject-instances [dataSource]="dataSource"></view-subject-instances>

@@ -29,12 +29,13 @@ namespace Rey.EQueue.Application.Queries.QueryHandlers
         {
             var user = _userAccessor.CurrentUser ?? throw new InvalidOperationException("No user in context.");
             var queue = await (_queueRepository.GetQuery()
-                .Where(q => q.IsActive && q.Id == request.QueueId)
+                .Where(q => q.Id == request.QueueId)
                 .Select(q => new
                 {
                     Id = q.Id,
                     SubjectInstanceName = q.ScheduledClass!.SubjectInstance!.Name,
-                    StartTime = q.ScheduledClass.StartTime
+                    StartTime = q.ScheduledClass.StartTime,
+                    IsActive = q.IsActive
                 })
                 .SingleAsync(cancellationToken));
 
@@ -48,6 +49,7 @@ namespace Rey.EQueue.Application.Queries.QueryHandlers
                 queue.Id,
                 queue.SubjectInstanceName,
                 queue.StartTime,
+                queue.IsActive,
                 records.Select(r => new RecordModel() 
                 { 
                     Created = r.CreationDate,

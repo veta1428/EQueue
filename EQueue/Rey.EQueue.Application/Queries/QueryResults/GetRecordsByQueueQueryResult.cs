@@ -8,12 +8,14 @@ namespace Rey.EQueue.Application.Queries.QueryResults
             int queueId, 
             string subjectInstanceName, 
             DateTime startTime, 
+            bool isActive,
             IEnumerable<RecordModel> records) 
         { 
             QueueId = queueId;
             SubjectInstanceName = subjectInstanceName;
             StartTime = startTime;          
             Records = records;
+            IsActive = isActive;
         }
 
         public int QueueId { get; set; }
@@ -21,6 +23,9 @@ namespace Rey.EQueue.Application.Queries.QueryResults
         public string SubjectInstanceName { get; set; } = null!;
 
         public DateTime StartTime { get; set; }
+
+
+        public bool IsActive { get; set; }
 
         public IEnumerable<RecordModel> Records { get; set; }
     }

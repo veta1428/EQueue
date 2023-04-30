@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Rey.EQueue.Application.Repositories;
 using Rey.EQueue.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Rey.EQueue.EF.Repositories
 {
@@ -19,6 +14,14 @@ namespace Rey.EQueue.EF.Repositories
         {
             return await GetQuery()
                 .Where(si => si.SubjectId == subjectId)
+                .Include(si => si.Timetables)
+                .ThenInclude(tt => tt.Classes)
+                .ToListAsync(cancellationToken);
+        }
+
+        public async Task<IEnumerable<SubjectInstance>> GetDetailedAsync(CancellationToken cancellationToken)
+        {
+            return await GetQuery()
                 .Include(si => si.Timetables)
                 .ThenInclude(tt => tt.Classes)
                 .ToListAsync(cancellationToken);

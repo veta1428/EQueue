@@ -27,7 +27,7 @@ namespace Rey.EQueue.Application.Queries.QueryHandlers
         {
             var user = _userAccessor.CurrentUser ?? throw new InvalidOperationException("No user in context.");
             var queues = await (_queueRepository.GetQuery()
-                .Where(q => q.IsActive)
+                .Where(q => request.Mode == QueueSearchMode.Active ? (q.IsActive == true) : (q.IsActive == false))
                 .Include(q => q.Records)
                 .Select(q => new
                 {
@@ -35,7 +35,8 @@ namespace Rey.EQueue.Application.Queries.QueryHandlers
                     SubjectInstanceName = q.ScheduledClass!.SubjectInstance!.Name,
                     StartTime = q.ScheduledClass.StartTime,
                     PeopleIn = q.Records.Count(),
-                    Records = q.Records
+                    Records = q.Records,
+                    IsActive = q.IsActive,
                 })
                 .ToArrayAsync(cancellationToken));
 
@@ -50,6 +51,7 @@ namespace Rey.EQueue.Application.Queries.QueryHandlers
                     SubjectInstanceName = queue.SubjectInstanceName,
                     PeopleIn = queue.PeopleIn,
                     CurrentUserPosition = GetCurrentUserPosition(user.Id, queue.Records),
+                    IsActive = queue.IsActive,
                 });
             }
 

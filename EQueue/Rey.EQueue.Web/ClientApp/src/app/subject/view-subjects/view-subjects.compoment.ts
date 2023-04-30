@@ -48,7 +48,7 @@ export class ViewSubjectsComponent implements OnInit
 
     openDialog(): void {
         const dialogRef = this._dialog.open(AddSubjectDialogComponent, {
-          data: {}
+          data: {update: false}
         });
     
         dialogRef.afterClosed().subscribe(result => {

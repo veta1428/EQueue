@@ -5,7 +5,12 @@
     </div>
 </ng-template>
 <ng-template #noLoading>
-    <h1>Active Queues</h1>
+    <div *ngIf="mode == 'active'">
+        <h1>Active Queues</h1>
+    </div>
+    <div *ngIf="mode != 'active'">
+        <h1>Inactive Queues</h1>
+    </div>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     
         <!--- Note that these columns can be defined in any order.
@@ -30,7 +35,7 @@
         <div class="column">
             <ng-container matColumnDef="startTime">
                 <th mat-header-cell *matHeaderCellDef> Start Time </th>
-                <td mat-cell *matCellDef="let element"> {{element.startTime}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.startTime | date: 'dd.MM.yyyy h:mm a'}} </td>
             </ng-container>
         </div>
     
@@ -46,7 +51,7 @@
         <div class="column">
             <ng-container matColumnDef="currentUserPosition">
                 <th mat-header-cell *matHeaderCellDef>Your Position</th>
-                <td mat-cell *matCellDef="let element"> {{element.currentUserPosition}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.currentUserPosition == -1 ? '-': element.currentUserPosition}} </td>
             </ng-container>
         </div>
 
@@ -54,17 +59,20 @@
             <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef>Actions</th>
                 <td mat-cell *matCellDef="let element">
-                    <div *ngIf="!element?.isCurrentUser">
-                        <button mat-raised-button color="primary" class="eq-buttons">Deactivate</button>
+                    <div *ngIf="showDeactivate">
+                        <button mat-raised-button color="primary" class="eq-buttons" (click)="deactivateQueue(element,$event)">Deactivate</button>
+                    </div>
+                    <div *ngIf="!showDeactivate">
+                        <button mat-raised-button color="primary" class="eq-buttons" (click)="activateQueue(element,$event)">Activate</button>
                     </div>
                 </td>
             </ng-container>
         </div>
-    
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
         <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="getQueue(row)"></tr>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     </table>
-    <div class="eq-buttons">
-        <button mat-raised-button color="primary" class="eq-button" >Add Queue</button>
+    <div class="eq-buttons" *ngIf="mode == 'active'">
+        <button mat-raised-button color="primary" class="eq-button" (click)="addQueue()">+ Add Queue</button>
     </div>
 </ng-template>

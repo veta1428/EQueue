@@ -244,7 +244,10 @@ namespace Rey.EQueue.EF.Migrations
             modelBuilder.Entity("Rey.EQueue.Core.Entities.ScheduledClass", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -260,6 +263,8 @@ namespace Rey.EQueue.EF.Migrations
 
                     b.HasKey("Id")
                         .HasName("ScheduledClassId");
+
+                    b.HasIndex("SubjectInstanceId");
 
                     b.ToTable("ScheduledClasses");
                 });
@@ -579,7 +584,7 @@ namespace Rey.EQueue.EF.Migrations
                 {
                     b.HasOne("Rey.EQueue.Core.Entities.SubjectInstance", "SubjectInstance")
                         .WithMany("ScheduledClasses")
-                        .HasForeignKey("Id")
+                        .HasForeignKey("SubjectInstanceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

@@ -10,6 +10,8 @@
 
         public int PeopleIn { get; set; }
 
-        public int? CurrentUserPosition { get; set; }   
+        public int? CurrentUserPosition { get; set; }  
+        
+        public bool IsActive { get; set; }
     }
 }

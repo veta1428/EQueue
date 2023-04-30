@@ -26,6 +26,13 @@ namespace Rey.EQueue.Web.Controllers
             return await _mediator.Send(command, cancellationToken);
         }
 
+        [HttpPost(Name = "UpdateSubject")]
+        [Route("update-subject")]
+        public async Task UpdateSubject([FromBody] SubjectModel command, CancellationToken cancellationToken)
+        {
+            await _mediator.Send(new UpdateSubjectCommand(command), cancellationToken);
+        }
+
         [HttpGet(Name = "GetSubjects")]
         [Route("subjects")]
         public Task<GetSubjectsQueryResult> GetSubjects(CancellationToken cancellationToken)

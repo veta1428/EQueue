@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AddSubjectModel, SubjectList } from '../models/subject';
+import { AddSubjectModel, Subject, SubjectList } from '../models/subject';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -18,5 +18,10 @@ export class SubjectService {
     addSubject(subject: AddSubjectModel)
     {
         return this._httpClient.post('api/subject/add-subject', subject);
+    }
+
+    updateSubject(subject: Subject)
+    {
+        return this._httpClient.post('api/subject/update-subject', subject);
     }
 }

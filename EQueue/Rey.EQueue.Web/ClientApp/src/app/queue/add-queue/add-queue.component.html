@@ -1,0 +1,49 @@
+<div *ngIf="isLoading; then loading else noLoading"></div>
+<ng-template #loading>
+    <div class="centered">
+        <mat-spinner></mat-spinner>
+    </div>
+</ng-template>
+<ng-template #noLoading>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Add Queue</mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <br/>
+            <form [formGroup]="fg" (ngSubmit)="onSubmit()">
+                <div>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Start Time</mat-label>
+                        <input formControlName="startTime" matInput type="datetime-local" placeholder="start date" onkeydown="return false">
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Duration</mat-label>
+                        <input type="number" minvalue="5" maxvalue="360" formControlName="duration" matInput required>
+                    </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Subject Instance</mat-label>
+                        <mat-select formControlName="subjectInstanceId" [(value)]="selectedSIId" required>
+                          <mat-option *ngFor="let si of subjectInstances" [value]="si.id">{{si.instanceName}}</mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                </div>
+                <div>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Description</mat-label>
+                        <textarea formControlName="description" type="text" formControlName="description" matInput></textarea>
+                    </mat-form-field>   
+                </div>
+            </form>
+            <div>
+                <button mat-raised-button color="primary" [disabled]="!fg.valid" class="eq-buttons" (click)="onSubmit()">Save</button>
+                <button mat-raised-button color="primary" class="eq-buttons" (click)="onCancel()">Cancel</button>
+            </div>
+        </mat-card-content>
+    </mat-card>  
+</ng-template>

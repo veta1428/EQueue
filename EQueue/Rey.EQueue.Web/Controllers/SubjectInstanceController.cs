@@ -38,5 +38,12 @@ namespace Rey.EQueue.Web.Controllers
         {
             return await _mediator.Send(new GetSubjectInstancesBySubjectQuery(subjectId), cancellationToken);
         }
+
+        [HttpGet(Name = "GetSubjectInstances")]
+        [Route("all")]
+        public async Task<GetSubjectInstancesQueryResult> GetSubjectInstances(CancellationToken cancellationToken)
+        {
+            return await _mediator.Send(new GetSubjectInstancesQuery(), cancellationToken);
+        }
     }
 }

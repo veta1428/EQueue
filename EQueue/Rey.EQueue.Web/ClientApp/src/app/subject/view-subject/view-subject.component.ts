@@ -1,10 +1,11 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Teacher, TeacherList } from '../../models/teacher'
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { SubjectInstance, SubjectInstanceList } from '../../models/subject-instance';
-import { Subject } from 'src/app/models/subject';
+import { MatDialog } from '@angular/material/dialog';
+import { AddSubjectDialogComponent } from '../add-subject-dialog/add-subject-dialog.component';
+import { Subject } from '../../models/subject';
 
 @Component({
     selector: 'view-subject',
@@ -22,7 +23,8 @@ export class ViewSubjectComponent implements OnInit, OnDestroy {
         private _http: HttpClient, 
         private _cdr: ChangeDetectorRef, 
         private _activateRoute: ActivatedRoute,
-        private _router: Router) 
+        private _router: Router,
+        private _dialog: MatDialog,) 
     {
         this.subsciption.add(_activateRoute.params.subscribe(params => this.subjectId = params['id']));
     }
@@ -51,5 +53,22 @@ export class ViewSubjectComponent implements OnInit, OnDestroy {
     addSubjectInstance()
     {
         this._router.navigate(['add-subject-instance']);
+    }
+
+    openDialog(): void {
+        console.log(this.subject);
+        const dialogRef = this._dialog.open(AddSubjectDialogComponent, {
+          data: {...this.subject, update: true}
+        });
+    
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('after closed');
+            this.ngOnInit();
+        });
+    }
+
+    onEditClick()
+    {
+        this.openDialog();
     }
 }

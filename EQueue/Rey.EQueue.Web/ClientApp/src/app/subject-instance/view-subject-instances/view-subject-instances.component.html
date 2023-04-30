@@ -24,7 +24,7 @@
             <th mat-header-cell *matHeaderCellDef>Timetable</th>
             <td mat-cell *matCellDef="let element"> 
                 <div *ngFor="let class of element.classes" class="eq-timetable">
-                    {{class.dayOfWeek}} at {{class.startTime}} ({{class.duration}} min)
+                    {{class.dayOfWeek}} at {{class.startTime | date: 'h:mm a'}} ({{class.duration}} min)
                 </div>
             </td>
         </ng-container>

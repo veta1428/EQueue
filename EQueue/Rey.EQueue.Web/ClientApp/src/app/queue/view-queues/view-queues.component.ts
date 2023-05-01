@@ -13,7 +13,6 @@ import { elementAt } from 'rxjs';
 export class ViewQueuesComponent implements OnInit {
 
     public displayedColumns: String[] = ['id', 'subjectInstanceName', 'startTime', 'peopleIn', 'currentUserPosition', 'actions'];
-    public displayedColumns2: String[] = ['id', 'subjectInstanceName', 'startTime', 'peopleIn', 'currentUserPosition'];
     public dataSource: QueueModel[] = [];
     public isLoading: boolean = true;
     public mode: QueueSearchMode = QueueSearchMode.Active;

@@ -17,6 +17,7 @@ namespace Rey.EQueue.Web.Extensions
             services.AddScoped<ITeacherRepository, TeacherRepository>();
             services.AddScoped<ITimetableRepository, TimetableRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IChangeRequestRepository, ChangeRequestRepository>();
         }
     }
 }

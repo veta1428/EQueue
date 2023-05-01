@@ -40,4 +40,9 @@ export class QueueService {
     {
         return this._httpClient.post(`api/queue/activate/${queueId}`, {});
     }
+
+    sendChangeRequest(queueId: number, recordId: number)
+    {
+        return this._httpClient.post(`api/queue/change-request/${queueId}/${recordId}`, {});
+    }
 }

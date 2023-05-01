@@ -155,6 +155,68 @@ namespace Rey.EQueue.EF.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Rey.EQueue.Core.Entities.ChangeRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("QueueId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RecordFromId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("RecordToId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("StartTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<string>("SubjectInstanceName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserFromFirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserFromId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserFromLastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserToFirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserToId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserToLastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id")
+                        .HasName("ChangeRequestId");
+
+                    b.HasIndex("RecordFromId");
+
+                    b.HasIndex("RecordToId");
+
+                    b.ToTable("ChangeRequest");
+                });
+
             modelBuilder.Entity("Rey.EQueue.Core.Entities.Class", b =>
                 {
                     b.Property<int>("Id")
@@ -539,6 +601,23 @@ namespace Rey.EQueue.EF.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Rey.EQueue.Core.Entities.ChangeRequest", b =>
+                {
+                    b.HasOne("Rey.EQueue.Core.Entities.Record", "RecordFrom")
+                        .WithMany("ChangeFrom")
+                        .HasForeignKey("RecordFromId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("Rey.EQueue.Core.Entities.Record", "RecordTo")
+                        .WithMany("ChangeTo")
+                        .HasForeignKey("RecordToId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("RecordFrom");
+
+                    b.Navigation("RecordTo");
+                });
+
             modelBuilder.Entity("Rey.EQueue.Core.Entities.Class", b =>
                 {
                     b.HasOne("Rey.EQueue.Core.Entities.Timetable", "Timetable")
@@ -640,6 +719,13 @@ namespace Rey.EQueue.EF.Migrations
             modelBuilder.Entity("Rey.EQueue.Core.Entities.Queue", b =>
                 {
                     b.Navigation("Records");
+                });
+
+            modelBuilder.Entity("Rey.EQueue.Core.Entities.Record", b =>
+                {
+                    b.Navigation("ChangeFrom");
+
+                    b.Navigation("ChangeTo");
                 });
 
             modelBuilder.Entity("Rey.EQueue.Core.Entities.ScheduledClass", b =>

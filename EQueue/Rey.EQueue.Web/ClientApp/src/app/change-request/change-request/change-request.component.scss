@@ -1,0 +1,41 @@
+table {
+    width: 100%;
+}
+
+.column {
+    width: 100%;
+}
+
+.centered 
+{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.eq-buttons
+{
+    margin: 5px 5px 5px 5px;
+    width: 100px;
+}
+
+.approve-button
+{
+    background-color: green;
+}
+
+.decline-button
+{
+    background-color: red;
+}
+
+.void-button
+{
+    background-color: #FF5F1F;
+}
+
+.see-queue-button
+{
+    background-color: blue;
+}

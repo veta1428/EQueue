@@ -34,6 +34,15 @@ export class ViewTeachersComponent implements OnInit {
         });
     }
 
+    public getDescription(desc: string) : string
+    {
+        if (desc == '' || desc == null)
+        {
+            return 'N/A';
+        }
+        return desc;
+    }
+
     public getTeacher(row: Teacher)
     {
         this._router.navigate([`/view-teacher/${row.id}`]);
@@ -41,7 +50,7 @@ export class ViewTeachersComponent implements OnInit {
 
     openDialog(): void {
         const dialogRef = this._dialog.open(AddTeacherDialogComponent, {
-          data: {}
+          data: {update: false}
         });
     
         dialogRef.afterClosed().subscribe(result => {

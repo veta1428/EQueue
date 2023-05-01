@@ -80,4 +80,10 @@ export class ViewQueueComponent implements OnInit, OnDestroy {
             this.ngOnInit();
         });
     }
+
+    onSendRequestClicked(element: RecordModel)
+    {
+        console.log('on send request clicked');
+        this._queueService.sendChangeRequest(this.queueId, element.recordId).subscribe((_)=>{this.ngOnInit();});
+    }
 }

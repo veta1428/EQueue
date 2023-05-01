@@ -36,6 +36,7 @@ import { AddSubjectInstanceComponent } from './subject-instance/add-subject-inst
 import { MatSelectModule } from '@angular/material/select';
 import { AddSubjectDialogComponent } from './subject/add-subject-dialog/add-subject-dialog.component';
 import { AddQueueComponent } from './queue/add-queue/add-queue.component';
+import { ChangeRequestComponent } from './change-request/change-request/change-request.component';
 
 @NgModule({
     declarations: [
@@ -54,7 +55,8 @@ import { AddQueueComponent } from './queue/add-queue/add-queue.component';
         AddTeacherDialogComponent,
         AddSubjectInstanceComponent,
         AddSubjectDialogComponent,
-        AddQueueComponent
+        AddQueueComponent,
+        ChangeRequestComponent
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -84,6 +86,7 @@ import { AddQueueComponent } from './queue/add-queue/add-queue.component';
             { path: 'view-queue/:id', component: ViewQueueComponent, canActivate: [AuthGuardService]},
             { path: 'add-subject-instance', component: AddSubjectInstanceComponent, canActivate: [AuthGuardService]},
             { path: 'add-queue', component: AddQueueComponent, canActivate: [AuthGuardService]},
+            { path: 'change-requests/:mode', component: ChangeRequestComponent, canActivate: [AuthGuardService]},
             { path: '**', redirectTo: '/queues/active', pathMatch: 'full'}
         ])
     ],

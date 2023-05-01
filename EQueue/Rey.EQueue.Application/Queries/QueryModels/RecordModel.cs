@@ -13,5 +13,7 @@
         public int Position { get; set; }
 
         public bool IsCurrentUser { get; set; } = false;
+
+        public bool CanSendRequest { get; set; } = true;
     }
 }

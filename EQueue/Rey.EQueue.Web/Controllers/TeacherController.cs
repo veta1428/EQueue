@@ -25,6 +25,13 @@ namespace Rey.EQueue.Web.Controllers
             return await _mediator.Send(teacher, cancellationToken);
         }
 
+        [HttpPost(Name = "UpdateTeacher")]
+        [Route("update-teacher")]
+        public async Task UpdateTeacher([FromBody] TeacherModel teacher, CancellationToken cancellationToken)
+        {
+            await _mediator.Send(new UpdateTeacherCommand(teacher), cancellationToken);
+        }
+
         [HttpGet(Name = "GetTeachers")]
         [Route("teachers")]
         public async Task<GetTeachersQueryResult> GetTeachers(CancellationToken cancellationToken)

@@ -1,4 +1,6 @@
-<h3>Add Teacher</h3>
+<div *ngIf="isAdd; then adding else editing"></div>
+<ng-template #adding><h3>Add Teacher</h3></ng-template>
+<ng-template #editing><h3>Update Teacher</h3></ng-template>
 <form [formGroup]="fg" (ngSubmit)="onSubmit()">
     <div>
         <mat-form-field appearance="fill">

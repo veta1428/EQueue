@@ -36,6 +36,7 @@ namespace Rey.EQueue.EF.Repositories
             return await GetQuery()
                 .Where(r => r.QueueId == queueId)
                 .Include(r => r.User)
+                .Include(r => r.ChangeTo)
                 .ToListAsync(cancellationToken);           
         }
 
@@ -43,7 +44,10 @@ namespace Rey.EQueue.EF.Repositories
         {
             return await GetQuery()
                 .Where(r => r.UserId == userId && r.QueueId == queueId)
+                .Include(r => r.ChangeFrom)
+                .Include(r => r.ChangeTo)
                 .SingleOrDefaultAsync(cancellationToken);
+
         }
     }
 }

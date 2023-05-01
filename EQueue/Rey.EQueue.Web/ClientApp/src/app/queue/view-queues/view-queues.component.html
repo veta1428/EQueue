@@ -60,7 +60,7 @@
                 <th mat-header-cell *matHeaderCellDef>Actions</th>
                 <td mat-cell *matCellDef="let element">
                     <div *ngIf="showDeactivate">
-                        <button mat-raised-button color="primary" class="eq-buttons" (click)="deactivateQueue(element,$event)">Deactivate</button>
+                        <button mat-raised-button color="primary" class="eq-buttons deactivate-button" (click)="deactivateQueue(element,$event)">Deactivate</button>
                     </div>
                     <div *ngIf="!showDeactivate">
                         <button mat-raised-button color="primary" class="eq-buttons" (click)="activateQueue(element,$event)">Activate</button>

@@ -1,7 +1,7 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Inject } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, FormControl, AbstractControl } from '@angular/forms';
-import { AddTeacherModel } from '../../models/teacher';
+import { AddTeacherModel, Teacher } from '../../models/teacher';
 import { TeacherService } from '../teacher.service';
 
 @Component({
@@ -14,10 +14,24 @@ export class AddTeacherDialogComponent implements OnInit {
     public fg: FormGroup = null!;
 
     constructor(
+        @Inject(MAT_DIALOG_DATA) public data: {
+            update: boolean, 
+            id?: number, 
+            firstName?: string, 
+            middleName?: string, 
+            lastName?: string,
+            description?: string,
+            note?: string,
+        },
         public dialogRef: MatDialogRef<AddTeacherDialogComponent>, 
         private _teacherService: TeacherService) 
     {
 
+    }
+    
+    public get isAdd() : boolean
+    {
+        return this.data.update == false;
     }
 
     public get firstName() : AbstractControl
@@ -47,6 +61,16 @@ export class AddTeacherDialogComponent implements OnInit {
             middleName: new FormControl(''),
             description: new FormControl(''),
         });
+
+        if (!this.isAdd)
+        {
+            this.fg.patchValue({
+                firstName: this.data.firstName,
+                lastName: this.data.lastName,
+                middleName: this.data.middleName,
+                description: this.data.description,
+            });
+        }
     }
 
     onSubmit()
@@ -55,18 +79,35 @@ export class AddTeacherDialogComponent implements OnInit {
             return;
         }
 
-        let teacher: AddTeacherModel = {
-            firstName: this.firstName.value,
-            lastName: this.lastName.value,
-            middleName: this.middleName.value,
-            description: this.description.value,
-            note: null
+        if(this.isAdd)
+        {
+            let teacher: AddTeacherModel = {
+                firstName: this.firstName.value,
+                lastName: this.lastName.value,
+                middleName: this.middleName.value,
+                description: this.description.value,
+                note: null
+            }
+    
+            this._teacherService.addTeacher(teacher).subscribe((_) => {
+                this.dialogRef.close();
+            });
         }
+        else
+        {
+            let teacher: Teacher = {
+                id: this.data.id!,        
+                firstName: this.firstName.value,
+                lastName: this.lastName.value,
+                middleName: this.middleName.value,
+                description: this.description.value,
+                note: ''
+            }
 
-        this._teacherService.addTeacher(teacher).subscribe((_) => {
-            console.log('after adding before close');
-            this.dialogRef.close();
-        });
+            this._teacherService.updateTeacher(teacher).subscribe((_) => {
+                this.dialogRef.close();
+            });
+        }
     }
 
     onCancel()

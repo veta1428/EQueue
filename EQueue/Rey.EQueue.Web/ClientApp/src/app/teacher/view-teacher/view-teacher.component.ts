@@ -4,6 +4,8 @@ import { Teacher, TeacherList } from '../../models/teacher'
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { SubjectInstance, SubjectInstanceList } from '../../models/subject-instance';
+import { MatDialog } from '@angular/material/dialog';
+import { AddTeacherDialogComponent } from '../add-teacher-dialog/add-teacher-dialog.component';
 
 @Component({
     selector: 'view-teacher',
@@ -21,7 +23,8 @@ export class ViewTeacherComponent implements OnInit, OnDestroy {
         private _http: HttpClient, 
         private _cdr: ChangeDetectorRef, 
         private _activateRoute: ActivatedRoute, 
-        private _router: Router) 
+        private _router: Router,
+        private _dialog: MatDialog,) 
     {
         this.subsciption.add(_activateRoute.params.subscribe(params => this.teacherId = params['id']));
     }
@@ -49,5 +52,21 @@ export class ViewTeacherComponent implements OnInit, OnDestroy {
     addSubjectInstance()
     {
         this._router.navigate(['add-subject-instance']);
+    }
+
+    openDialog(): void {
+        const dialogRef = this._dialog.open(AddTeacherDialogComponent, {
+          data: {...this.teacher, update: true}
+        });
+    
+        dialogRef.afterClosed().subscribe(result => {
+            console.log('after closed');
+            this.ngOnInit();
+        });
+    }
+
+    onEditClicked()
+    {
+        this.openDialog();
     }
 }

@@ -30,6 +30,7 @@ namespace Rey.EQueue.Application.Queries.QueryHandlers
             var user = _userAccessor.CurrentUser ?? throw new InvalidOperationException("No user in context.");
             var queue = await (_queueRepository.GetQuery()
                 .Where(q => q.Id == request.QueueId)
+                .Include(q => q.Records)
                 .Select(q => new
                 {
                     Id = q.Id,
@@ -58,6 +59,7 @@ namespace Rey.EQueue.Application.Queries.QueryHandlers
                     RecordId = r.Id,
                     Position = startPosition++,
                     IsCurrentUser = r.UserId == user.Id,
+                    CanSendRequest = !r.ChangeTo.Where(chr => chr.UserFromId == user.Id && chr.Status == Core.Enums.RequestStatus.Pending).Any(),
                 }));
         }
 

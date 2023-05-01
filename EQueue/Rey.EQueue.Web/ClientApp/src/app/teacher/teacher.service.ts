@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AddTeacherModel, TeacherList } from '../models/teacher';
+import { AddTeacherModel, Teacher, TeacherList } from '../models/teacher';
 import { HttpClient } from '@angular/common/http';
 import { ObserversModule } from '@angular/cdk/observers';
 import { Observable } from 'rxjs';
@@ -18,5 +18,10 @@ export class TeacherService {
     getTeachers(): Observable<TeacherList>
     {
         return this._httpClient.get<TeacherList>('/api/teacher/teachers');
+    }
+
+    updateTeacher(teacher: Teacher)
+    {
+        return this._httpClient.post('api/teacher/update-teacher', teacher);
     }
 }

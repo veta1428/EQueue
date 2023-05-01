@@ -10,13 +10,17 @@ namespace Rey.EQueue.Application.Commands.CommandHandlers
     {
         private readonly IRecordRepository _recordRepository;
         private readonly IUserAccessor _userAccessor;
+        private readonly IChangeRequestRepository _changeRequestRepository;
 
         public RemoveUserFromQueueCommandHandler(
             IRecordRepository recordRepository,
-            IUserAccessor userAccessor)
+            IUserAccessor userAccessor,
+            IChangeRequestRepository changeRequestRepository)
         {
             _recordRepository = recordRepository;
             _userAccessor = userAccessor;
+            _changeRequestRepository = changeRequestRepository;
+
         }
 
         public async Task<Unit> Handle(RemoveUserFromQueueCommand request, CancellationToken cancellationToken)
@@ -27,8 +31,31 @@ namespace Rey.EQueue.Application.Commands.CommandHandlers
             var currentRecord = await _recordRepository.GetUserRecordByQueueAsync(currentUser.Id, request.QueueId, cancellationToken)
                 ?? throw new InvalidOperationException("User is not in the queue. Cannot remove it");
 
-            var prevRecord = await _recordRepository.GetPrevRecordAsync(currentRecord, cancellationToken);
+            var toChangeRequests = currentRecord.ChangeTo.ToList();
+            foreach (var changeRequest in toChangeRequests)
+            {
+                changeRequest.RecordToId = null;
+                changeRequest.Status = Core.Enums.RequestStatus.Void;
+            }
 
+            _changeRequestRepository.UpdateRange(toChangeRequests);
+
+
+            var fromChangeRequests = currentRecord.ChangeFrom.ToList();
+
+            foreach (var changeRequest in fromChangeRequests)
+            {
+                changeRequest.RecordFromId = null;
+                changeRequest.Status = Core.Enums.RequestStatus.Void;
+            }
+
+            _changeRequestRepository.UpdateRange(fromChangeRequests);
+
+            await _changeRequestRepository.SaveChangesAsync(cancellationToken);
+
+
+
+            var prevRecord = await _recordRepository.GetPrevRecordAsync(currentRecord, cancellationToken);
 
             if (prevRecord is null) // user is the first in queue
             {

@@ -15,5 +15,9 @@ namespace Rey.EQueue.Core.Entities
         public int UserId { get; set; }
 
         public User? User { get; set; }
+
+        public IEnumerable<ChangeRequest> ChangeFrom { get; set; } = new List<ChangeRequest>();
+
+        public IEnumerable<ChangeRequest> ChangeTo { get; set; } = new List<ChangeRequest>();
     }
 }

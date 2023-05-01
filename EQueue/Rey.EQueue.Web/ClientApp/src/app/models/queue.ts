@@ -28,6 +28,7 @@ export interface RecordModel
     created: string; // ToDo: date
     position: number;
     isCurrentUser: boolean;
+    canSendRequest: boolean;
 }
 
 export interface DetailedQueueModel

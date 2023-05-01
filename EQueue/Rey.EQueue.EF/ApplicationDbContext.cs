@@ -43,6 +43,7 @@ namespace Rey.EQueue.EF
             modelBuilder.ApplyConfiguration<ScheduledClass>(new ScheduledClassConfiguration());
             modelBuilder.ApplyConfiguration<Subject>(new SubjectConfiguration());
             modelBuilder.ApplyConfiguration<SubjectInstance>(new SubjectInstanceConfiguration());
+            modelBuilder.ApplyConfiguration(new ChangeRequestConfiguration());
 
             modelBuilder.ApplyConfiguration<SubjectInstanceTeacher>(new SubjectInstanceTeacherConfiguration());
             modelBuilder.ApplyConfiguration<Teacher>(new TeacherConfiguration());

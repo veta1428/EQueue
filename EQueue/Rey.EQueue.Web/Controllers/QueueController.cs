@@ -65,5 +65,40 @@ namespace Rey.EQueue.Web.Controllers
         {
             await _mediator.Send(new ActivateQueueCommand(id), cancellationToken);
         }
+
+        [HttpPost]
+        [Route("change-request/{queueId}/{recordId}")]
+        public async Task AddChangeRequest(int queueId, int recordId, CancellationToken cancellationToken)
+        {
+            await _mediator.Send(new AddChangeRequestCommand(recordId, queueId), cancellationToken);
+        }
+
+        [HttpGet]
+        [Route("change-requests/{mode}")]
+        public async Task<GetChangeRequestsQueryResult> GetChangeRequests(SearchChangeRequestMode mode, CancellationToken cancellationToken)
+        {
+            return await _mediator.Send(new GetChangeRequestsQuery(mode), cancellationToken);
+        }
+
+        [HttpPost]
+        [Route("change-request/approve/{id}")]
+        public async Task ApproveChangeRequest(int id, CancellationToken cancellationToken)
+        {
+            await _mediator.Send(new ApproveChangeRequestCommand(id), cancellationToken);
+        }
+
+        [HttpPost]
+        [Route("change-request/decline/{id}")]
+        public async Task DeclineChangeRequest(int id, CancellationToken cancellationToken)
+        {
+            await _mediator.Send(new DeclineChangeRequestCommand(id), cancellationToken);
+        }
+
+        [HttpPost]
+        [Route("change-request/void/{id}")]
+        public async Task VoidChangeRequest(int id, CancellationToken cancellationToken)
+        {
+            await _mediator.Send(new VoidChangeRequestCommand(id), cancellationToken);
+        }
     }
 }

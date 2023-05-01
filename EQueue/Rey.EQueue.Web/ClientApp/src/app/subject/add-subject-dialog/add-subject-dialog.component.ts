@@ -38,7 +38,7 @@ export class AddSubjectDialogComponent implements OnInit {
             description: new FormControl(''),
         });
 
-        if (this.data !== null)
+        if (!this.isAdd)
         {
             this.fg.patchValue({
                 name: this.data.name,

@@ -54,7 +54,6 @@ export class ViewTeachersComponent implements OnInit {
         });
     
         dialogRef.afterClosed().subscribe(result => {
-            console.log('after closed');
             this.ngOnInit();
         });
     }

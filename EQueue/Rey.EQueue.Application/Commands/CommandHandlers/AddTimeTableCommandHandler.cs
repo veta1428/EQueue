@@ -24,7 +24,20 @@ namespace Rey.EQueue.Application.Commands.CommandHandlers
             var si = await _subjectInstanceRepository.FindByIdAsync(request.SubjectInstanceId, cancellationToken)
                 ?? throw new NotFoundException(nameof(SubjectInstance));
 
-            var timetable = new Timetable(request.AppliedPeriodStart, request.AppliedPeriodEnd, request.Classes.Select(c => new Class(c.DayOfWeek, c.StartTime, c.Duration)));
+            // ensure there is one active timetable matches current day
+            if (request.AppliedPeriodEnd > DateTime.UtcNow && request.AppliedPeriodStart < DateTime.UtcNow)
+            {
+                var timetables = await _subjectInstanceRepository.GetActiveTimetablesBySiIdAsync(request.SubjectInstanceId, cancellationToken);
+
+                foreach (var t in timetables)
+                {
+                    t.IsActive = false;
+                }
+
+                _timetableRepository.UpdateRange(timetables);
+            }
+
+            var timetable = new Timetable(request.AppliedPeriodStart, request.AppliedPeriodEnd, request.Classes.Select(c => new Class(c.DayOfWeek, c.StartTime, c.Duration)).ToList()) { IsActive = true };
             _timetableRepository.Add(timetable);
             await _timetableRepository.SaveChangesAsync(cancellationToken);
 

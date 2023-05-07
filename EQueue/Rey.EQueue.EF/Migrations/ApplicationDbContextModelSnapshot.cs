@@ -447,6 +447,9 @@ namespace Rey.EQueue.EF.Migrations
                     b.Property<DateTime>("AppliedPeriodStart")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<int?>("SubjectInstanceId")
                         .HasColumnType("int");
 

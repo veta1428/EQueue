@@ -11,6 +11,6 @@ namespace Rey.EQueue.Application.Commands.Commands
 
         public DateTime AppliedPeriodEnd { get; set; }
 
-        public ICollection<ClassModel> Classes { get; set; } = null!;
+        public IEnumerable<ClassModel> Classes { get; set; } = null!;
     }
 }

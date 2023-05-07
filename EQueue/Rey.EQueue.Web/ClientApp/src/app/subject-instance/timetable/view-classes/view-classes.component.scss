@@ -1,0 +1,32 @@
+table {
+    width: 50%;
+}
+
+.column {
+    width: 100%;
+}
+
+.centered 
+{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.eq-button
+{
+    margin-top: 20px;
+}
+
+.mat-column-dayOfWeek {
+    width: 40%;
+}
+
+.mat-column-startTime {
+    width: 40%;
+}
+
+.mat-column-duration {
+    width: 20%;
+}

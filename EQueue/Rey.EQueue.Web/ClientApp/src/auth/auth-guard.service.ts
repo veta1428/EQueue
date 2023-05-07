@@ -13,7 +13,6 @@ export class AuthGuardService implements CanActivate {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
         return this._authService.isAuthenticated().pipe(
             map((isLoggedIn: boolean) => {
-                    console.log(isLoggedIn);
                     if (!isLoggedIn) {
                         window.location.href = "/Account/Login";
                         return false;

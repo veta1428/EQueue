@@ -35,7 +35,6 @@ export class ViewSubjectComponent implements OnInit, OnDestroy {
             this._http.get<SubjectInstanceList>(`/api/subjectinstance/subject/${this.subjectId}`).subscribe((subjectInstances: SubjectInstanceList) => { 
                 this.dataSource = subjectInstances.subjectInstances;
                 this.subject = subject;
-                console.log(this.subject);
                 this.isLoading = false;
                 this._cdr.detectChanges();
                 this._cdr.markForCheck();
@@ -56,13 +55,11 @@ export class ViewSubjectComponent implements OnInit, OnDestroy {
     }
 
     openDialog(): void {
-        console.log(this.subject);
         const dialogRef = this._dialog.open(AddSubjectDialogComponent, {
           data: {...this.subject, update: true}
         });
     
         dialogRef.afterClosed().subscribe(result => {
-            console.log('after closed');
             this.ngOnInit();
         });
     }

@@ -9,9 +9,6 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
-import { ApiAuthorizationModule } from 'src/api-authorization/api-authorization.module';
-import { AuthorizeGuard } from 'src/api-authorization/authorize.guard';
-import { AuthorizeInterceptor } from 'src/api-authorization/authorize.interceptor';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ViewTeachersComponent } from './teacher/view-teachers/view-teachers.compoment';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -32,11 +29,18 @@ import { ViewQueuesComponent } from './queue/view-queues/view-queues.component';
 import { ViewQueueComponent } from './queue/view-queue/view-queue.component';
 import { AddTeacherDialogComponent } from './teacher/add-teacher-dialog/add-teacher-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatDatepickerModule } from '@angular/material/datepicker'
 import { AddSubjectInstanceComponent } from './subject-instance/add-subject-instance/add-subject-instance.component';
 import { MatSelectModule } from '@angular/material/select';
 import { AddSubjectDialogComponent } from './subject/add-subject-dialog/add-subject-dialog.component';
 import { AddQueueComponent } from './queue/add-queue/add-queue.component';
 import { ChangeRequestComponent } from './change-request/change-request/change-request.component';
+import { ViewSubjectInstanceComponent } from './subject-instance/view-subject-instance/view-subject-instance.component';
+import { ViewTimetableComponent } from './subject-instance/timetable/view-timetable/view-timetable.component';
+import { AddTimetableComponent } from './subject-instance/timetable/add-timetable/add-timetable.component';
+import { MatNativeDateModule } from '@angular/material/core';
+import { ViewClassesComponent } from './subject-instance/timetable/view-classes/view-classes.component';
+import { AddClassDialogComponent } from './subject-instance/timetable/add-class-dialog/add-class-dialog.component';
 
 @NgModule({
     declarations: [
@@ -56,7 +60,12 @@ import { ChangeRequestComponent } from './change-request/change-request/change-r
         AddSubjectInstanceComponent,
         AddSubjectDialogComponent,
         AddQueueComponent,
-        ChangeRequestComponent
+        ChangeRequestComponent,
+        ViewSubjectInstanceComponent,
+        ViewTimetableComponent,
+        ViewClassesComponent,
+        AddTimetableComponent,
+        AddClassDialogComponent
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -74,7 +83,8 @@ import { ChangeRequestComponent } from './change-request/change-request/change-r
         MatProgressSpinnerModule,
         MatDialogModule,
         MatSelectModule,
-        ApiAuthorizationModule,
+        MatDatepickerModule,
+        MatNativeDateModule, 
         RouterModule.forRoot([
             { path: 'queues/:mode', component: ViewQueuesComponent, canActivate: [AuthGuardService]},
             { path: 'counter', component: CounterComponent, canActivate: [AuthGuardService] },
@@ -87,6 +97,7 @@ import { ChangeRequestComponent } from './change-request/change-request/change-r
             { path: 'add-subject-instance', component: AddSubjectInstanceComponent, canActivate: [AuthGuardService]},
             { path: 'add-queue', component: AddQueueComponent, canActivate: [AuthGuardService]},
             { path: 'change-requests/:mode', component: ChangeRequestComponent, canActivate: [AuthGuardService]},
+            { path: 'subject-instance/:id', component: ViewSubjectInstanceComponent, canActivate: [AuthGuardService]},
             { path: '**', redirectTo: '/queues/active', pathMatch: 'full'}
         ])
     ],

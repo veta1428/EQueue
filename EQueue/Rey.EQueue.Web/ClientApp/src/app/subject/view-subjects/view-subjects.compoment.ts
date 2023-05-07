@@ -52,7 +52,7 @@ export class ViewSubjectsComponent implements OnInit
         });
     
         dialogRef.afterClosed().subscribe(result => {
-            console.log('after closed');
+
             this.ngOnInit();
         });
     }

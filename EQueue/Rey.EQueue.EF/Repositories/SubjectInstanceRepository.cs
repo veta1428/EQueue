@@ -26,5 +26,26 @@ namespace Rey.EQueue.EF.Repositories
                 .ThenInclude(tt => tt.Classes)
                 .ToListAsync(cancellationToken);
         }
+
+        public async Task<SubjectInstance> GetDetailedByIdAsync(int id, CancellationToken cancellationToken)
+        {
+            return await GetQuery()
+                .Where(si => si.Id == id)
+                .Include(si => si.Subject)
+                .Include(si => si.SubjectInstanceTeachers)
+                    .ThenInclude(sit => sit.Teacher)
+                .Include(si => si.Timetables)
+                    .ThenInclude(tt => tt.Classes)
+                .SingleAsync(cancellationToken);
+        }
+
+        public async Task<IEnumerable<Timetable>> GetActiveTimetablesBySiIdAsync(int siid, CancellationToken cancellationToken)
+        {
+            return await GetQuery()
+                .Where(si => si.Id == siid)
+                .SelectMany(si => si.Timetables)
+                .Where(t => t.AppliedPeriodEnd > DateTime.UtcNow && t.AppliedPeriodStart < DateTime.UtcNow && t.IsActive)
+                .ToListAsync(cancellationToken);
+        }
     }
 }

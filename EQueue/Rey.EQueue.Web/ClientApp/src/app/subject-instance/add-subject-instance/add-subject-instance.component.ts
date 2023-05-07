@@ -67,9 +67,6 @@ export class AddSubjectInstanceComponent implements OnInit {
 
     onSubmit()
     {
-        console.log('in on submit');
-        console.log(this.selectedTeacherIds);
-        console.log(this.selectedSubjectId);
         if(!this.fg.valid)
         {
             return;

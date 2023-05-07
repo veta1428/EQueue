@@ -22,11 +22,9 @@ export class AppComponent implements OnInit {
     ngOnInit() 
     {
         this._authService.getUser().subscribe(user =>{
-            console.log(user);
             if(user != null)
             {
                 this.user = user;
-                console.log(this.user);
                 this._cdr.markForCheck();
             }
         });

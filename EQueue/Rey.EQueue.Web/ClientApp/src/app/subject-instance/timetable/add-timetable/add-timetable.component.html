@@ -1,0 +1,35 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>Apply New Timetable</mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+        <br />
+        <form [formGroup]="fg" (ngSubmit)="onSubmit()">
+            <div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Period of validity</mat-label>
+                    <mat-date-range-input onkeydown="return false" [rangePicker]="picker" required>
+                        <input matStartDate placeholder="Start date" formControlName="validityStart" required>
+                        <input matEndDate placeholder="End date" formControlName="validityEnd" required>
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+                </mat-form-field>
+            </div>
+            <div class="eq-buttons">
+                <h2>Classes</h2>
+                <app-view-classes [classes]="classes"></app-view-classes>
+            </div>
+        </form>
+        <div>
+            <button mat-raised-button color="primary" class="eq-buttons" class="eq-buttons"
+            (click)="onAddClass()">+ Add Class</button>
+        </div>
+        <br>
+        <div>
+            <button mat-raised-button color="primary" class="eq-buttons" (click)="onSubmit()" [disabled]="!fg.valid">Save</button>
+            <button mat-raised-button color="primary" class="eq-buttons" (click)="onCancel()">Cancel</button>
+        </div>
+    </mat-card-content>
+</mat-card>

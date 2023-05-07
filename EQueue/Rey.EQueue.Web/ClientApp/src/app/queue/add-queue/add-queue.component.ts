@@ -34,11 +34,6 @@ export class AddQueueComponent implements OnInit {
         return this.fg.controls.subjectInstanceId;
     }
 
-    public get description() : AbstractControl
-    {
-        return this.fg.controls.description;
-    }
-
     public get startTime() : AbstractControl
     {
         return this.fg.controls.startTime;
@@ -59,8 +54,7 @@ export class AddQueueComponent implements OnInit {
         this.fg = this._fb.group({
             subjectInstanceId: '',
             startTime: '',
-            duration: '',
-            description: ''
+            duration: ''
         });
     }
 
@@ -70,13 +64,12 @@ export class AddQueueComponent implements OnInit {
         {
             return;
         }
-        console.log(this.startTime.value);
-        console.log(moment(this.startTime.value).format('yyyy-MM-DDThh:mm:ss'));
+
         let queue: AddQueueModel = {
             subjectInstanceId: this.subjectInstanceId.value,
             startTime: moment(this.startTime.value).utc().format('yyyy-MM-DDThh:mm:ss'),
             duration: this.duration.value,
-            description: this.description.value,
+            description: null,
         }
 
         this._queueService.addQueue(queue).subscribe((_)=>{this._location.back();});

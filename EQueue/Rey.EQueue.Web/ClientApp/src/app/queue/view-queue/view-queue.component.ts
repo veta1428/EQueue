@@ -46,15 +46,13 @@ export class ViewQueueComponent implements OnInit, OnDestroy {
 
     public getDateFormatted(date: string)
     {
-        return moment.utc(date).local().format('DD.MM.yyyy h:mm:ss a');
+        return moment.utc(date).local().format('DD.MM.yyyy HH:mm:ss');
     }
 
     ngOnInit()
     {
         this._queueService.getQueueDetailes(this.queueId).subscribe((q: DetailedQueueModel)=>{
-            console.log(q);
             this.dataSource = q.records;
-            console.log(this.dataSource);
             this.queue = q;
             this.isLoading = false;
             this._cdr.detectChanges();

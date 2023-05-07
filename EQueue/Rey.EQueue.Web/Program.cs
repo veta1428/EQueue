@@ -7,6 +7,7 @@ using Rey.EQueue.Web.Extensions;
 using System.Reflection;
 using Rey.EQueue.Web.Services;
 using Rey.EQueue.Application.Services;
+using System.Text.Json.Serialization;
 
 namespace Rey.EQueue.Web
 {
@@ -43,7 +44,12 @@ namespace Rey.EQueue.Web
                 })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            builder.Services.AddControllersWithViews();
+            builder.Services
+                .AddControllersWithViews()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                });
 
             var domainAssemblies = AppDomain.CurrentDomain.GetAssemblies();
 

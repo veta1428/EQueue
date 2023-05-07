@@ -1,0 +1,33 @@
+<h3>Add Class</h3>
+<form [formGroup]="fg" (ngSubmit)="onSubmit()">
+    <div>
+        <mat-form-field appearance="fill">
+            <mat-label>Day of Week</mat-label>
+            <mat-select formControlName="dayOfWeek" readonly required>
+                <mat-option value="Monday">Monday</mat-option>
+                <mat-option value="Tuesday">Tuesday</mat-option>
+                <mat-option value="Wednesday">Wednesday</mat-option>
+                <mat-option value="Thursday">Thursday</mat-option>
+                <mat-option value="Friday">Friday</mat-option>
+                <mat-option value="Saturday">Saturday</mat-option>
+                <mat-option value="Sunday">Sunday</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field appearance="fill">
+            <mat-label>Duration</mat-label>
+            <input type="number" formControlName="duration" default="80" matInput required>
+        </mat-form-field>
+    </div>
+    <div>
+        <mat-form-field>
+            <mat-label>Start Time</mat-label>
+            <input matInput type="time" placeholder="Start time" formControlName="startTime" required>
+        </mat-form-field>
+    </div>
+</form>
+<div>
+    <button mat-raised-button color="primary" [disabled]="!fg.valid" class="eq-buttons" (click)="onSubmit()">Save</button>
+    <button mat-raised-button color="primary" class="eq-buttons" (click)="onCancel()">Cancel</button>
+</div>

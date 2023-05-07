@@ -55,7 +55,7 @@ namespace Rey.EQueue.Application.Queries.QueryHandlers
                 });
             }
 
-            return new GetQueuesQueryResult(result);
+            return new GetQueuesQueryResult(result.OrderBy(x => x.StartTime));
         }
 
         private int GetCurrentUserPosition(int userId, ICollection<Record> records)

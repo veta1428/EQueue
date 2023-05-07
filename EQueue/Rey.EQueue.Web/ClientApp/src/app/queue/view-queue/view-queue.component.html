@@ -87,12 +87,14 @@
         <tr mat-row [style.background-color]="(row.isCurrentUser) ? '#adadad' : ''"
             *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+    <br>
     <div *ngIf="!userInQueue() && queue?.isActive" class="eq-buttons">
         <button mat-raised-button color="primary" class="eq-button" (click)="addUser()" >Add to Queue</button>
     </div>
     <div *ngIf="userInQueue() && queue?.isActive" class="eq-buttons">
         <button mat-raised-button color="primary" class="eq-button" (click)="removeUser()" >Delete from Queue</button>
     </div>
+    <br>
 </ng-template>
 <ng-template #noData>
     <div>

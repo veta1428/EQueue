@@ -1,3 +1,5 @@
+import { Teacher } from "./teacher";
+
 export interface SubjectInstance
 {
     id: number;
@@ -24,4 +26,21 @@ export interface AddSubjectInstanceModel
     description: string | null;
     subjectId: number;
     teacherIds: number[];
+}
+
+export interface SubjectInstanceDetails
+{
+    id: number;
+    timetable: TimetableModel | null; 
+    instanceDescription: string | null;
+    instanceName: string;
+    subjectName: string;
+    teachers: Teacher[];
+}
+
+export interface TimetableModel
+{
+    appliedPeriodStart: string;
+    appliedPeriodEnd: string;
+    classes: Class[];
 }

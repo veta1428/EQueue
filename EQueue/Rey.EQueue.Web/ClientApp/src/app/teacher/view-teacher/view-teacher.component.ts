@@ -60,7 +60,6 @@ export class ViewTeacherComponent implements OnInit, OnDestroy {
         });
     
         dialogRef.afterClosed().subscribe(result => {
-            console.log('after closed');
             this.ngOnInit();
         });
     }

@@ -1,0 +1,44 @@
+.teachers-block
+{
+    margin: 10px 10px 10px 10px;
+}
+table {
+    width: 100%;
+}
+
+.column {
+    width: 100%;
+}
+
+.centered 
+{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.eq-button
+{
+    margin-top: 20px;
+}
+
+.mat-column-id {
+    width: 10%;
+}
+
+.mat-column-firstName {
+    width: 10%;
+}
+
+.mat-column-lastName {
+    width: 15%;
+}
+
+.mat-column-middleName {
+    width: 15%;
+}
+
+.mat-column-description {
+    width: 50%;
+}

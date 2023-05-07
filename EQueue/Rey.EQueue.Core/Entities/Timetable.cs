@@ -22,5 +22,7 @@ namespace Rey.EQueue.Core.Entities
         public DateTime AppliedPeriodEnd { get; set; }
 
         public IEnumerable<Class>? Classes { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

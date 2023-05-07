@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ChangeRequestService } from '../change-request.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChangeRequest, ChangeRequestList, SearchChangeRequestMode } from '../../models/change-request';
+import moment from 'moment';
 
 @Component({
     selector: 'app-change-request',
@@ -18,6 +19,11 @@ export class ChangeRequestComponent implements OnInit {
         private _shcService: ChangeRequestService,
         private _activateRoute: ActivatedRoute,
         private _router: Router) { }
+
+    public getDateFormatted(date: string)
+    {
+        return moment.utc(date).local().format('DD.MM.yyyy HH:mm');
+    }
 
     ngOnInit(): void {
         this._activateRoute.params.subscribe(params => {

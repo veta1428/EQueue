@@ -9,5 +9,8 @@ namespace Rey.EQueue.Application.Repositories
 
         Task<IEnumerable<SubjectInstance>> GetDetailedAsync(CancellationToken cancellationToken);
 
+        Task<SubjectInstance> GetDetailedByIdAsync(int id, CancellationToken cancellationToken);
+
+        Task<IEnumerable<Timetable>> GetActiveTimetablesBySiIdAsync(int siid, CancellationToken cancellationToken);
     }
 }

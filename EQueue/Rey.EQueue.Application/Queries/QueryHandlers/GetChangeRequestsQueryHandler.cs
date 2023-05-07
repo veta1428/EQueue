@@ -84,7 +84,7 @@ namespace Rey.EQueue.Application.Queries.QueryHandlers
             {
                 return new GetChangeRequestQueryResult(
                     id: chr.Id,
-                    queueId: chr.RecordFrom?.QueueId,
+                    queueId: chr.QueueId,
                     queueStartTime: chr.StartTime,
                     subjectInstanceName: chr.SubjectInstanceName,
                     peopleIn: null,
@@ -111,7 +111,7 @@ namespace Rey.EQueue.Application.Queries.QueryHandlers
 
             return new GetChangeRequestQueryResult(
                 id: chr.Id,
-                queueId: chr.RecordFrom?.QueueId,
+                queueId: chr.QueueId,
                 queueStartTime: chr.StartTime,
                 subjectInstanceName: chr.SubjectInstanceName,
                 peopleIn: chr.RecordFrom!.Queue!.Records.Count,

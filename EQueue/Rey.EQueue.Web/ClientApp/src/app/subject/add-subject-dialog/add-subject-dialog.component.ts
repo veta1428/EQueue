@@ -16,7 +16,6 @@ export class AddSubjectDialogComponent implements OnInit {
     constructor(@Inject(MAT_DIALOG_DATA) public data: {update: boolean, id?: number, name?: string, description?: string},
         public dialogRef: MatDialogRef<AddSubjectDialogComponent>,
         private _subjectService: SubjectService,) {
-            console.log(data);
     }
 
     public get name(): AbstractControl {

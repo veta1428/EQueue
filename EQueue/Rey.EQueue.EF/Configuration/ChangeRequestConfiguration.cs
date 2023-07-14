@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Rey.EQueue.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Rey.EQueue.EF.Configuration
 {
@@ -28,6 +23,27 @@ namespace Rey.EQueue.EF.Configuration
                 .WithMany(r => r.ChangeTo)
                 .HasForeignKey(chr => chr.RecordToId)
                 .OnDelete(DeleteBehavior.NoAction);
+
+            builder
+                .HasOne<User>(r => r.UserFrom)
+                .WithMany()
+                .HasForeignKey(chr => chr.UserFromId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();
+
+            builder
+                .HasOne<User>(r => r.UserTo)
+                .WithMany()
+                .HasForeignKey(chr => chr.UserToId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();
+
+            builder
+                .HasOne<Queue>()
+                .WithMany()
+                .HasForeignKey(chr => chr.QueueId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .IsRequired();
 
             builder
                 .Property(c => c.Status)

@@ -7,33 +7,30 @@ namespace Rey.EQueue.Core.Entities
     {
         public int? RecordFromId { get; set; }
 
+        public Record? RecordFrom { get; set; }
+
         public int? RecordToId { get; set; }
+
+        public Record? RecordTo { get; set; }
 
         public DateTime Created { get; set; }
 
         public RequestStatus Status { get; set; } = RequestStatus.Pending;
 
-        public Record? RecordFrom { get; set; }
+        // copy from scheduled class (perf and b-logic)
+        public DateTime ScheduledClassStartTime { get; set; }
 
-        public Record? RecordTo { get; set; }
-
-        public DateTime StartTime { get; set; }
-
+        // copy from subject instance (perf and b-logic)
         public string SubjectInstanceName { get; set; } = null!;
         
-
         public int QueueId { get; set; }
 
         public int UserFromId { get; set; }
 
-        public string UserFromFirstName { get; set; } = null!;
-
-        public string UserFromLastName { get; set; } = null!;
+        public User? UserFrom { get; set; }
 
         public int UserToId { get; set; }
 
-        public string UserToFirstName { get; set; } = null!;
-
-        public string UserToLastName { get; set; } = null!;
+        public User? UserTo { get; set; }
     }
 }

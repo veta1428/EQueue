@@ -71,13 +71,13 @@ namespace Rey.EQueue.Application.Queries.QueryHandlers
 
             if (mode == SearchChangeRequestMode.Incoming)
             {
-                firstName = chr.UserFromFirstName;
-                lastName = chr.UserFromLastName;
+                firstName = chr.UserFrom?.FirstName;
+                lastName = chr.UserFrom?.LastName;
             }
             else
             {
-                firstName = chr.UserToFirstName;
-                lastName = chr.UserToLastName;
+                firstName = chr.UserTo?.FirstName;
+                lastName = chr.UserTo?.LastName;
             }
 
             if (chr.Status == RequestStatus.Void || chr.Status == RequestStatus.Declined || chr.Status == RequestStatus.Approved)
@@ -85,7 +85,7 @@ namespace Rey.EQueue.Application.Queries.QueryHandlers
                 return new GetChangeRequestQueryResult(
                     id: chr.Id,
                     queueId: chr.QueueId,
-                    queueStartTime: chr.StartTime,
+                    queueStartTime: chr.ScheduledClassStartTime,
                     subjectInstanceName: chr.SubjectInstanceName,
                     peopleIn: null,
                     currentUserPosition: null,
@@ -112,7 +112,7 @@ namespace Rey.EQueue.Application.Queries.QueryHandlers
             return new GetChangeRequestQueryResult(
                 id: chr.Id,
                 queueId: chr.QueueId,
-                queueStartTime: chr.StartTime,
+                queueStartTime: chr.ScheduledClassStartTime,
                 subjectInstanceName: chr.SubjectInstanceName,
                 peopleIn: chr.RecordFrom!.Queue!.Records.Count,
                 currentUserPosition: currentUserPosition,

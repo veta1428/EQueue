@@ -16,6 +16,7 @@ namespace Rey.EQueue.EF.Repositories
                 .Where(chr => chr.UserToId == userId)
                 .Include(chr => chr.RecordFrom)
                 .Include(chr => chr.RecordTo)
+                .Include(chr => chr.UserFrom)
                 .ToListAsync(cancellationToken);
         }
 
@@ -25,6 +26,7 @@ namespace Rey.EQueue.EF.Repositories
                 .Where(chr => chr.UserFromId == userId)
                 .Include(chr => chr.RecordFrom)
                 .Include(chr => chr.RecordTo)
+                .Include(chr => chr.UserTo)
                 .ToListAsync(cancellationToken);
         }
     }

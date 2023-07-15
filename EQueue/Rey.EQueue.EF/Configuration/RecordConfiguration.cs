@@ -22,6 +22,13 @@ namespace Rey.EQueue.EF.Configuration
                 .HasOne<User>(u => u.User)
                 .WithMany(u => u.Records)
                 .HasForeignKey(r => r.UserId);
+
+            builder
+                .HasOne<Record>()
+                .WithMany()
+                .HasForeignKey(r => r.NextRecordId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired(false);
         }
     }
 }

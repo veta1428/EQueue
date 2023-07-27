@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Rey.EQueue.EF;
 
@@ -11,9 +12,10 @@ using Rey.EQueue.EF;
 namespace Rey.EQueue.EF.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230715170746_MakeGroupIdRequired")]
+    partial class MakeGroupIdRequired
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -351,7 +353,7 @@ namespace Rey.EQueue.EF.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("GroupId")
+                    b.Property<int>("GroupId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -431,7 +433,7 @@ namespace Rey.EQueue.EF.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("GroupId")
+                    b.Property<int>("GroupId")
                         .HasColumnType("int");
 
                     b.Property<string>("LastName")
@@ -723,7 +725,9 @@ namespace Rey.EQueue.EF.Migrations
                 {
                     b.HasOne("Rey.EQueue.Core.Entities.Group", null)
                         .WithMany()
-                        .HasForeignKey("GroupId");
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Rey.EQueue.Core.Entities.SubjectInstance", b =>
@@ -760,7 +764,9 @@ namespace Rey.EQueue.EF.Migrations
                 {
                     b.HasOne("Rey.EQueue.Core.Entities.Group", null)
                         .WithMany()
-                        .HasForeignKey("GroupId");
+                        .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Rey.EQueue.Core.Entities.Timetable", b =>

@@ -8,6 +8,9 @@ using System.Reflection;
 using Rey.EQueue.Web.Services;
 using Rey.EQueue.Application.Services;
 using System.Text.Json.Serialization;
+using Rey.EQueue.Web.Middlewares;
+using Rey.EQueue.Application.Context;
+using Rey.EQueue.Web.Context;
 
 namespace Rey.EQueue.Web
 {
@@ -25,7 +28,6 @@ namespace Rey.EQueue.Web
                 options.UseSqlServer(connectionString));
 
             builder.Services.ConfigureRepositories();
-            Console.WriteLine(Assembly.GetEntryAssembly().ToString());
 
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -33,6 +35,9 @@ namespace Rey.EQueue.Web
             builder.Services.AddRazorPages();
 
             builder.Services.AddScoped<IUserAccessor, UserAccessor>();
+            builder.Services.AddSingleton<IGroupContextScheduler, GroupContextScheduler>();
+            builder.Services.AddSingleton<IGroupContextAccessor, GroupContextAccessor>();
+
 
             builder.Services
                 .AddIdentity<ApplicationUser, IdentityRole>(opts => {
@@ -83,6 +88,7 @@ namespace Rey.EQueue.Web
             app.UseRouting();
 
             app.UseAuthentication();
+            app.UseMiddleware<GroupContextMiddleware>();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

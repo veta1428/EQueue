@@ -1,11 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Rey.EQueue.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Rey.EQueue.EF.Configuration
 {
@@ -16,6 +11,12 @@ namespace Rey.EQueue.EF.Configuration
             builder
                 .HasKey(t => t.Id)
                 .HasName(nameof(Teacher) + nameof(Teacher.Id));
+
+            builder.HasOne<Group>()
+                .WithMany()
+                .HasForeignKey(t => t.GroupId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();
         }
     }
 }

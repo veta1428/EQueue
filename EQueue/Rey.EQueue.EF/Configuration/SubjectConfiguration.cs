@@ -17,6 +17,12 @@ namespace Rey.EQueue.EF.Configuration
             builder
                 .HasKey(s => s.Id)
                 .HasName(nameof(Subject) + nameof(Subject.Id));
+
+            builder.HasOne<Group>()
+                .WithMany()
+                .HasForeignKey(s => s.GroupId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();
         }
     }
 }

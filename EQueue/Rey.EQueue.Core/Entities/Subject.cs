@@ -19,6 +19,8 @@ public class Subject : Entity
     public string Name { get; set; } = null!;
     public string? Description { get; set; }
 
+    public int GroupId { get; set; }
+
     public ICollection<SubjectInstance>? SubjectInstances { get; set; }
 
 }

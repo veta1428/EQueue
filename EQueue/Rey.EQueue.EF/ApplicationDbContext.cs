@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Rey.EQueue.Application.Context;
 using Rey.EQueue.Core.Entities;
 using Rey.EQueue.Core.User;
 using Rey.EQueue.EF.Configuration;
@@ -8,9 +9,12 @@ namespace Rey.EQueue.EF
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext(DbContextOptions options)
+        private readonly int? _groupId;
+
+        public ApplicationDbContext(DbContextOptions options, IGroupContextAccessor groupAccessor)
             : base(options)
         {
+            _groupId = groupAccessor.Current?.GroupId;
             Database.Migrate();
         }
 
@@ -34,6 +38,8 @@ namespace Rey.EQueue.EF
 
         public DbSet<User> Users { get; set; } = null!;
 
+        public DbSet<Group> Groups { get; set; } = null!;
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -49,6 +55,17 @@ namespace Rey.EQueue.EF
             modelBuilder.ApplyConfiguration<Teacher>(new TeacherConfiguration());
             modelBuilder.ApplyConfiguration<Timetable>(new TimetableConfiguration());
             modelBuilder.ApplyConfiguration<User>(new UserConfiguration());
+
+            if (_groupId is not null)
+            {
+                modelBuilder
+                    .Entity<Teacher>()
+                    .HasQueryFilter(t => t.GroupId == _groupId.Value);
+
+                modelBuilder
+                    .Entity<Subject>()
+                    .HasQueryFilter(s => s.GroupId == _groupId.Value);
+            }
         }
     }
 }

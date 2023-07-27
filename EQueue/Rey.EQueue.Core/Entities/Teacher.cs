@@ -37,6 +37,8 @@ namespace Rey.EQueue.Core.Entities
 
         public string? Note { get; set; }
 
+        public int GroupId { get; set; }
+
         public ICollection<SubjectInstanceTeacher> SubjectInstanceTeachers { get; set; } = null!;
     }
 }

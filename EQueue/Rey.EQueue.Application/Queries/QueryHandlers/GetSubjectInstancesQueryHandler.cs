@@ -24,15 +24,15 @@ namespace Rey.EQueue.Application.Queries.QueryHandlers
 
         public async Task<GetSubjectInstancesQueryResult> Handle(GetSubjectInstancesQuery request, CancellationToken cancellationToken)
         {
-            var sis = (await _subjectInstanceRepository.GetDetailedAsync(cancellationToken)).Select(sit => new SubjectInstanceModel()
+            var subjectInstances = (await _subjectInstanceRepository.GetDetailedAsync(cancellationToken)).Select(subjectInstance => new SubjectInstanceModel()
             {
-                Id = sit.Id,
-                InstanceDescription = sit.Description,
-                InstanceName = sit.Name,
-                Classes = GetActualClasses(sit.Timetables)
+                Id = subjectInstance.Id,
+                InstanceDescription = subjectInstance.Description,
+                InstanceName = subjectInstance.Name,
+                Classes = GetActualClasses(subjectInstance.Timetables)
             });
 
-            return new GetSubjectInstancesQueryResult(sis);
+            return new GetSubjectInstancesQueryResult(subjectInstances);
         }
 
         private IEnumerable<ClassModel> GetActualClasses(ICollection<Timetable>? timetables)
@@ -40,7 +40,7 @@ namespace Rey.EQueue.Application.Queries.QueryHandlers
             if (timetables is null)
                 return new List<ClassModel>();
 
-            var activeTimetable = timetables.Where(t => t.AppliedPeriodStart < DateTime.UtcNow && t.AppliedPeriodEnd > DateTime.UtcNow).FirstOrDefault();
+            var activeTimetable = timetables.Where(t => t.AppliedPeriodStart < DateTime.UtcNow && t.AppliedPeriodEnd > DateTime.UtcNow && t.IsActive).FirstOrDefault();
 
             if (activeTimetable is null)
                 return new List<ClassModel>();

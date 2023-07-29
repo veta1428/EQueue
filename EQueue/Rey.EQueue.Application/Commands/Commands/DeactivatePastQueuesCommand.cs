@@ -2,7 +2,7 @@
 
 namespace Rey.EQueue.Application.Commands.Commands
 {
-    public class DeactivatePastQueuesCommand : IRequest
+    public class DeactivateQueuesCommand : IRequest
     {       
     }
 }

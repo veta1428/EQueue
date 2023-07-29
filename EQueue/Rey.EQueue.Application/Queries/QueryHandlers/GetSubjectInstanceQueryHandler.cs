@@ -18,7 +18,7 @@ namespace Rey.EQueue.Application.Queries.QueryHandlers
         {
             var si = await _subjectInstanceRepository.GetDetailedByIdAsync(request.SubjectInstanceId, cancellationToken);
 
-            var tt = si.Timetables.Where(tt => tt.AppliedPeriodStart < DateTime.Now && tt.AppliedPeriodEnd > DateTime.Now && tt.IsActive is true).SingleOrDefault();
+            var tt = si.Timetables.Where(t => t.IsActualOn(DateTime.UtcNow)).SingleOrDefault();
 
             var classes = tt?.Classes?.Select(c => new ClassModel() { DayOfWeek = c.DayOfWeek.ToString(), Duration = c.Duration, StartTime = c.StartTime });
 

@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Teacher, TeacherList } from '../../models/teacher'
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { AddTeacherDialogComponent } from '../add-teacher-dialog/add-teacher-dialog.component';
 import { TeacherService } from '../teacher.service';
@@ -19,6 +19,7 @@ export class ViewTeachersComponent implements OnInit {
     constructor(
         private _http: HttpClient, 
         private _cdr: ChangeDetectorRef, 
+        private _route: ActivatedRoute,
         private _router: Router, 
         private _dialog: MatDialog,
         private _teacherService: TeacherService) {
@@ -45,7 +46,7 @@ export class ViewTeachersComponent implements OnInit {
 
     public getTeacher(row: Teacher)
     {
-        this._router.navigate([`/view-teacher/${row.id}`]);
+        this._router.navigate([`view-teacher/${row.id}`], { relativeTo: this._route.parent });
     }
 
     openDialog(): void {

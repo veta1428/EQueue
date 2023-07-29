@@ -24,6 +24,7 @@ namespace Rey.EQueue.EF.Repositories
             return await GetQuery()
                 .Include(si => si.Timetables)
                 .ThenInclude(tt => tt.Classes)
+                .Include(si => si.Subject)
                 .ToListAsync(cancellationToken);
         }
 
@@ -39,7 +40,7 @@ namespace Rey.EQueue.EF.Repositories
                 .SingleAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<Timetable>> GetActiveTimetablesBySiIdAsync(int siid, CancellationToken cancellationToken)
+        public async Task<IEnumerable<Timetable>> GetActiveTimetablesByIdAsync(int siid, CancellationToken cancellationToken)
         {
             return await GetQuery()
                 .Where(si => si.Id == siid)

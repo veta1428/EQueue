@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SubjectInstance, SubjectInstanceList } from '../../models/subject-instance';
 import moment from 'moment';
 
@@ -32,7 +32,7 @@ export class ViewSubjectInstancesComponent {
         return moment.utc(date).local().format('H:mm');
     }
     
-    constructor(private _http: HttpClient, private _cdr: ChangeDetectorRef, private _router: Router) {
+    constructor(private _http: HttpClient, private _cdr: ChangeDetectorRef, private _router: Router, private _route: ActivatedRoute) {
         // _http.get<SubjectInstanceList>('/api/subjectinstance/teacher/').subscribe((teachers: TeacherList) => { 
         //     this.dataSource = teachers.teachers;
         //     this.isLoading = false;
@@ -46,6 +46,6 @@ export class ViewSubjectInstancesComponent {
 
     getSubjectInstance(row: SubjectInstance)
     {
-        this._router.navigate(['subject-instance', row.id]);
+        this._router.navigate(['subject-instance', row.id], { relativeTo: this._route.parent });
     }
 }

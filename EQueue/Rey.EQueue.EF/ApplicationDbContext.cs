@@ -15,6 +15,7 @@ namespace Rey.EQueue.EF
             : base(options)
         {
             _groupId = groupAccessor.Current?.GroupId;
+            Console.WriteLine("db ctx init with " + _groupId);
             Database.Migrate();
         }
 
@@ -56,16 +57,17 @@ namespace Rey.EQueue.EF
             modelBuilder.ApplyConfiguration<Timetable>(new TimetableConfiguration());
             modelBuilder.ApplyConfiguration<User>(new UserConfiguration());
 
-            if (_groupId is not null)
-            {
-                modelBuilder
-                    .Entity<Teacher>()
-                    .HasQueryFilter(t => t.GroupId == _groupId.Value);
+            modelBuilder
+                .Entity<Teacher>()
+                .HasQueryFilter(t => _groupId == null || t.GroupId == _groupId);
 
-                modelBuilder
-                    .Entity<Subject>()
-                    .HasQueryFilter(s => s.GroupId == _groupId.Value);
-            }
+            modelBuilder
+                .Entity<Subject>()
+                .HasQueryFilter(s => _groupId == null || s.GroupId == _groupId);
+
+            modelBuilder
+                .Entity<Queue>()
+                .HasQueryFilter(q => _groupId == null || q.GroupId == _groupId);
         }
     }
 }

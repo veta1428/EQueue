@@ -20,6 +20,7 @@ export class ViewQueuesComponent implements OnInit {
 
     constructor(
         private _http: HttpClient, 
+        private _route: ActivatedRoute,
         private _cdr: ChangeDetectorRef, 
         private _router: Router, 
         private _queueService: QueueService,
@@ -49,12 +50,12 @@ export class ViewQueuesComponent implements OnInit {
     }
 
     public getQueue(row: QueueModel) {
-        this._router.navigate([`/view-queue/${row.id}`]);
+        this._router.navigate([`view-queue/${row.id}`], { relativeTo: this._route.parent});
     }
 
     addQueue()
     {
-        this._router.navigate(['add-queue']);
+        this._router.navigate(['add-queue'], {relativeTo: this._route.parent });
     }
 
     deactivateQueue(row: QueueModel, $event: Event)

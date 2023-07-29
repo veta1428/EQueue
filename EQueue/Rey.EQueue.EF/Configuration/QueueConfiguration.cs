@@ -22,6 +22,12 @@ namespace Rey.EQueue.EF.Configuration
                 .HasOne<ScheduledClass>(q => q.ScheduledClass)
                 .WithMany(sc => sc.Queues)
                 .HasForeignKey(sc => sc.ScheduledClassId);
+
+            builder.HasOne<Group>()
+                .WithMany()
+                .HasForeignKey(q => q.GroupId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();
         }
     }
 }

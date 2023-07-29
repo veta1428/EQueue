@@ -27,7 +27,7 @@ namespace Rey.EQueue.Application.Commands.CommandHandlers
             // ensure there is one active timetable matches current day
             if (request.AppliedPeriodEnd > DateTime.UtcNow && request.AppliedPeriodStart < DateTime.UtcNow)
             {
-                var timetables = await _subjectInstanceRepository.GetActiveTimetablesBySiIdAsync(request.SubjectInstanceId, cancellationToken);
+                var timetables = await _subjectInstanceRepository.GetActiveTimetablesByIdAsync(request.SubjectInstanceId, cancellationToken);
 
                 foreach (var t in timetables)
                 {

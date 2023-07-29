@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Rey.EQueue.EF;
 
@@ -11,9 +12,10 @@ using Rey.EQueue.EF;
 namespace Rey.EQueue.EF.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230729120053_AddGroupIdToQueue")]
+    partial class AddGroupIdToQueue
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -266,7 +268,7 @@ namespace Rey.EQueue.EF.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("GroupId")
+                    b.Property<int?>("GroupId")
                         .HasColumnType("int");
 
                     b.Property<bool>("IsActive")
@@ -683,8 +685,7 @@ namespace Rey.EQueue.EF.Migrations
                     b.HasOne("Rey.EQueue.Core.Entities.Group", null)
                         .WithMany()
                         .HasForeignKey("GroupId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Rey.EQueue.Core.Entities.ScheduledClass", "ScheduledClass")
                         .WithMany("Queues")

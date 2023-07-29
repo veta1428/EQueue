@@ -18,6 +18,7 @@ namespace Rey.EQueue.Core.Entities
 
         public DayOfWeek DayOfWeek { get; set; }
 
+        // ToDo: use TimeOnly
         public DateTime StartTime { get; set; }
 
         public int Duration { get; set; }

@@ -33,9 +33,21 @@ namespace Rey.EQueue.Application.Context
         {
             var headers = _httpContextAccessor.HttpContext?.Request.Headers;
 
-            return headers is not null && headers.TryGetValue("Group-Id", out var values) && values.Any() && int.TryParse(values[0], out var groupId)
+            //foreach (var item in headers)
+            //{
+            //    Console.WriteLine(item.Key + ": " + item.Value);
+            //}
+
+            int? res = headers is not null && headers.TryGetValue("Group-Id", out var values) && values.Any() && int.TryParse(values[0], out var groupId)
                 ? groupId
                 : null;
+            if (res is null)
+            {
+                Console.WriteLine(_httpContextAccessor.HttpContext.Request.Path);
+            }
+            else
+                Console.WriteLine(_httpContextAccessor.HttpContext.Request.Path + "***********" + res);
+            return res;
         }
     }
 }

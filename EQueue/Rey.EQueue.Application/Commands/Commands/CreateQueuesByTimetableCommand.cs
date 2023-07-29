@@ -2,7 +2,7 @@
 
 namespace Rey.EQueue.Application.Commands.Commands
 {
-    public class CreateQueuesByTimetableCommand: IRequest
+    public class GenerateQueuesCommand: IRequest
     {
     }
 }

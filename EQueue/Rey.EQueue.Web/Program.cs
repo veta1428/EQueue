@@ -11,6 +11,8 @@ using System.Text.Json.Serialization;
 using Rey.EQueue.Web.Middlewares;
 using Rey.EQueue.Application.Context;
 using Rey.EQueue.Web.Context;
+using Rey.EQueue.Application.Options;
+using Rey.EQueue.Application.Commands.Commands;
 
 namespace Rey.EQueue.Web
 {
@@ -23,6 +25,11 @@ namespace Rey.EQueue.Web
             // Add services to the container.
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
+            builder.Services.AddOptions<DeactivateQueueOptions>()
+                .Bind(builder.Configuration.GetSection("DeactivateQueue"));
+
+
+            builder.Services.AddOptions<GenerateQueueOptions>().Bind(builder.Configuration.GetSection("GenerateQueue"));
 
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
@@ -69,8 +76,12 @@ namespace Rey.EQueue.Web
 
             using var scope = app.Services.CreateScope();
 
-            scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+            var mediatr = scope.ServiceProvider.GetRequiredService<IMediator>();
+            var scheduler = Rey.EQueue.Shared.TaskScheduler.Instance;
+            scheduler.RunAndScheduleTask(7, async () 
+                => await mediatr.Send(new SynchronizeCommand(), CancellationToken.None));
 
+            //scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -85,10 +96,11 @@ namespace Rey.EQueue.Web
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+            app.UseMiddleware<GroupContextMiddleware>();
+
             app.UseRouting();
 
             app.UseAuthentication();
-            app.UseMiddleware<GroupContextMiddleware>();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

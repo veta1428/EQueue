@@ -17,6 +17,8 @@ namespace Rey.EQueue.Core.Entities
 
         public int ScheduledClassId { get; set; }
 
+        public int GroupId { get; set; }
+
         public ScheduledClass? ScheduledClass { get; set; }
 
         public ICollection<Record> Records { get; set; } = new List<Record>();

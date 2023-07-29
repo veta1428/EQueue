@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Rey.EQueue.Application.Commands.Commands;
+using Rey.EQueue.Application.Context;
 using Rey.EQueue.Application.Repositories;
 using Rey.EQueue.Core.Entities;
 
@@ -9,17 +10,22 @@ namespace Rey.EQueue.Application.Commands.CommandHandlers
     {
         private readonly IQueueRepository _queueRepository;
         private readonly IMediator _mediator;
+        private readonly IGroupContextAccessor _groupContextAccessor;
 
         public AddQueueCommandHandler(
             IQueueRepository queueRepository, 
-            IMediator mediator)
+            IMediator mediator,
+            IGroupContextAccessor groupContextAccessor)
         {
             _queueRepository = queueRepository;
             _mediator = mediator;
+            _groupContextAccessor = groupContextAccessor;
         }
 
         public async Task<int> Handle(AddQueueCommand request, CancellationToken cancellationToken)
         {
+            int groupId = _groupContextAccessor.Current?.GroupId ?? throw new InvalidOperationException($"{nameof(Queue.GroupId)} is absent");
+
             var addSchClassCommand = new AddScheduledClassCommand()
             {
                 Duration = request.Duration,
@@ -35,7 +41,8 @@ namespace Rey.EQueue.Application.Commands.CommandHandlers
                 CreationDate = DateTime.UtcNow,
                 Description = request.Description,
                 IsActive = true,
-                ScheduledClassId = schClassId
+                ScheduledClassId = schClassId,
+                GroupId = groupId,
             };
 
             _queueRepository.Add(queue);

@@ -51,7 +51,7 @@ export class ViewTeacherComponent implements OnInit, OnDestroy {
 
     addSubjectInstance()
     {
-        this._router.navigate(['add-subject-instance']);
+        this._router.navigate(['add-subject-instance'], {relativeTo: this._activateRoute.parent });
     }
 
     openDialog(): void {

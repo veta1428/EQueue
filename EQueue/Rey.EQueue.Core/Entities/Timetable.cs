@@ -24,5 +24,10 @@ namespace Rey.EQueue.Core.Entities
         public IEnumerable<Class>? Classes { get; set; }
 
         public bool IsActive { get; set; }
+
+        public bool IsActualOn(DateTime dateTime)
+        {
+            return IsActive && AppliedPeriodStart <= dateTime && AppliedPeriodEnd >= dateTime;
+        }
     }
 }

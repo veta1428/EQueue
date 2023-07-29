@@ -2,6 +2,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { UserModel } from '../auth/models/user';
+import { GroupContextService } from '../../src/core/group-context.service';
 
 @Component({
     selector: 'app-root',
@@ -15,9 +16,10 @@ export class AppComponent implements OnInit {
     /**
      *
      */
-    constructor(private _authService: AuthService, private _cdr: ChangeDetectorRef) {
-
-    }
+    constructor(
+        private _authService: AuthService, 
+        private _cdr: ChangeDetectorRef, 
+        private _groupContext: GroupContextService) { }
 
     ngOnInit() 
     {
@@ -28,5 +30,10 @@ export class AppComponent implements OnInit {
                 this._cdr.markForCheck();
             }
         });
+    }
+
+    hasPracticeContext(){
+        console.log(!Number.isNaN(this._groupContext.getGroupId()));
+        return !Number.isNaN(this._groupContext.getGroupId());
     }
 }

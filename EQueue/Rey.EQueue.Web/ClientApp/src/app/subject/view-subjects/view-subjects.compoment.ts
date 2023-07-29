@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Teacher, TeacherList } from '../../models/teacher'
 import { Subject, SubjectList } from '../../models/subject';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { SubjectService } from '../subject.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddSubjectDialogComponent } from '../add-subject-dialog/add-subject-dialog.component';
@@ -21,6 +21,7 @@ export class ViewSubjectsComponent implements OnInit
     constructor(
         private _http: HttpClient, 
         private _cdr: ChangeDetectorRef, 
+        private _route: ActivatedRoute,
         private _router: Router,
         private _subjectService: SubjectService,
         private _dialog: MatDialog,) 
@@ -38,7 +39,7 @@ export class ViewSubjectsComponent implements OnInit
 
     getSubject(subject: Subject)
     {
-        this._router.navigate([`/view-subject/${subject.id}`]);
+        this._router.navigate([`view-subject/${subject.id}`], {relativeTo: this._route.parent });
     }
 
     addSubjectClicked()

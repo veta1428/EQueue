@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Rey.EQueue.Application.Context;
 using Rey.EQueue.Application.Queries.Queries;
 using Rey.EQueue.Application.Queries.QueryModels;
 using Rey.EQueue.Application.Queries.QueryResults;
@@ -14,9 +15,11 @@ namespace Rey.EQueue.Application.Queries.QueryHandlers
     internal class GetSubjectsQueryHandler : IRequestHandler<GetSubjectsQuery, GetSubjectsQueryResult>
     {
         private readonly ISubjectRepository _subjectRepository;
-        public GetSubjectsQueryHandler(ISubjectRepository subjectRepository)
+        private readonly IGroupContextAccessor _groupAccessor;
+        public GetSubjectsQueryHandler(ISubjectRepository subjectRepository, IGroupContextAccessor groupAccessor)
         {
             _subjectRepository = subjectRepository;
+            _groupAccessor = groupAccessor;
         }
 
         public async Task<GetSubjectsQueryResult> Handle(GetSubjectsQuery request, CancellationToken cancellationToken)

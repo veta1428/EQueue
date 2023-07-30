@@ -13,7 +13,8 @@ namespace Rey.EQueue.Web.Middlewares
 
         public async Task InvokeAsync(HttpContext context, IGroupContextScheduler scheduler)
         {
-            await scheduler.ExecuteAsync(async () => await _next.Invoke(context), null, context.RequestAborted);
+            await scheduler.ExecuteAsync(
+                async () => await _next.Invoke(context), null, context.RequestAborted);
         }
     }
 }

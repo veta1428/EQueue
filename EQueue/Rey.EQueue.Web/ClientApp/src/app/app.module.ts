@@ -111,20 +111,6 @@ import { GroupsComponent } from './groups/groups.component';
                     { path: '**', redirectTo: '/all-groups' }
                 ]
             },
-            // { path: 'start', redirectTo: 'group/2/view-subjects'},
-            // { path: 'group/:groupId/queues/:mode', component: ViewQueuesComponent, canActivate: [AuthGuardService]},
-            // { path: 'group/:groupId/counter', component: CounterComponent, canActivate: [AuthGuardService] },
-            // { path: 'group/:groupId/fetch-data', component: FetchDataComponent, canActivate: [AuthGuardService] },
-            // { path: 'group/:groupId/view-teachers', component: ViewTeachersComponent, canActivate: [AuthGuardService] },
-            // { path: 'group/:groupId/view-subjects', component: ViewSubjectsComponent, canActivate: [AuthGuardService] },
-            // { path: 'group/:groupId/view-teacher/:id', component: ViewTeacherComponent, canActivate: [AuthGuardService]},
-            // { path: 'group/:groupId/view-subject/:id', component: ViewSubjectComponent, canActivate: [AuthGuardService] },
-            // { path: 'group/:groupId/view-queue/:id', component: ViewQueueComponent, canActivate: [AuthGuardService]},
-            // { path: 'group/:groupId/add-subject-instance', component: AddSubjectInstanceComponent, canActivate: [AuthGuardService]},
-            // { path: 'group/:groupId/add-queue', component: AddQueueComponent, canActivate: [AuthGuardService]},
-            // { path: 'group/:groupId/change-requests/:mode', component: ChangeRequestComponent, canActivate: [AuthGuardService]},
-            // { path: 'group/:groupId/subject-instance/:id', component: ViewSubjectInstanceComponent, canActivate: [AuthGuardService]},
-            // { path: '**', redirectTo: 'group/1/queues/active', pathMatch: 'full'}
         ])
     ],
     providers: [AuthGuardService, { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true }],

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Rey.EQueue.Application.Repositories;
 
 namespace Rey.EQueue.Application.Context
 {
@@ -6,20 +7,30 @@ namespace Rey.EQueue.Application.Context
     {
         private readonly IGroupContextAccessor _groupAccessor;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IGroupRepository _groupRepository;
 
-        public GroupContextScheduler(IGroupContextAccessor groupAccessor, IHttpContextAccessor httpContextAccessor) 
+        public GroupContextScheduler(
+            IGroupContextAccessor groupAccessor,
+            IHttpContextAccessor httpContextAccessor,
+            IGroupRepository groupRepository) 
         { 
             _groupAccessor = groupAccessor;
             _httpContextAccessor = httpContextAccessor;
+            _groupRepository = groupRepository;
         }
 
         public async Task ExecuteAsync(Func<Task> func, int? groupId, CancellationToken cancellationToken)
         {
             groupId ??= TryGetGroupId();
+
             GroupContext? gctx = null;
 
             if (groupId.HasValue)
             {
+                var group = _groupRepository.TryFindByIdAsync(groupId.Value, cancellationToken);
+                if (group is null)
+                    throw new InvalidOperationException("No such group found");
+
                 gctx = new GroupContext(groupId.Value);
             }
 
@@ -33,21 +44,12 @@ namespace Rey.EQueue.Application.Context
         {
             var headers = _httpContextAccessor.HttpContext?.Request.Headers;
 
-            //foreach (var item in headers)
-            //{
-            //    Console.WriteLine(item.Key + ": " + item.Value);
-            //}
-
-            int? res = headers is not null && headers.TryGetValue("Group-Id", out var values) && values.Any() && int.TryParse(values[0], out var groupId)
+            return headers is not null 
+                    && headers.TryGetValue("Group-Id", out var values) 
+                    && values.Any() 
+                    && int.TryParse(values[0], out var groupId)
                 ? groupId
                 : null;
-            if (res is null)
-            {
-                Console.WriteLine(_httpContextAccessor.HttpContext.Request.Path);
-            }
-            else
-                Console.WriteLine(_httpContextAccessor.HttpContext.Request.Path + "***********" + res);
-            return res;
         }
     }
 }

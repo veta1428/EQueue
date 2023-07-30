@@ -17,8 +17,7 @@ namespace Rey.EQueue.Web.Context
         {
             var store = Current;
             Current = group;
-            Console.WriteLine("context set - " + group?.GroupId);
-            return new OnDisposeAction(() => { Current = store; Console.WriteLine("Context disposed"); });
+            return new OnDisposeAction(() => Current = store); 
         }
     }
 }

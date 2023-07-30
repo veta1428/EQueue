@@ -42,7 +42,7 @@ namespace Rey.EQueue.Web
             builder.Services.AddRazorPages();
 
             builder.Services.AddScoped<IUserAccessor, UserAccessor>();
-            builder.Services.AddSingleton<IGroupContextScheduler, GroupContextScheduler>();
+            builder.Services.AddScoped<IGroupContextScheduler, GroupContextScheduler>();
             builder.Services.AddSingleton<IGroupContextAccessor, GroupContextAccessor>();
 
 

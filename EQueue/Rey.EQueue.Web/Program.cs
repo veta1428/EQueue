@@ -44,6 +44,7 @@ namespace Rey.EQueue.Web
             builder.Services.AddScoped<IUserAccessor, UserAccessor>();
             builder.Services.AddScoped<IGroupContextScheduler, GroupContextScheduler>();
             builder.Services.AddSingleton<IGroupContextAccessor, GroupContextAccessor>();
+            builder.Services.AddScoped<IRoleManager, RoleManager>();
 
 
             builder.Services
@@ -101,6 +102,13 @@ namespace Rey.EQueue.Web
             app.UseRouting();
 
             app.UseAuthentication();
+
+            app.Use((ctx, del) =>
+            {
+                var u = ctx.User;
+                return del.Invoke(ctx);
+            });
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -2,6 +2,7 @@
 using Rey.EQueue.Application.Commands.Commands;
 using Rey.EQueue.Application.Context;
 using Rey.EQueue.Application.Repositories;
+using Rey.EQueue.Application.Services;
 using Rey.EQueue.Core.Entities;
 
 namespace Rey.EQueue.Application.Commands.CommandHandlers
@@ -12,21 +13,27 @@ namespace Rey.EQueue.Application.Commands.CommandHandlers
         private readonly ISubjectRepository _subjectRepository;
         private readonly ISubjectInstanceRepository _instanceRepository;
         private readonly IGroupContextAccessor _groupContextAccessor;
+        private readonly IRoleManager _roleManager;
 
         public AddTeacherCommandHandler(
             ITeacherRepository teacherRepository, 
             ISubjectRepository subjectRepository, 
             ISubjectInstanceRepository instanceRepository,
-            IGroupContextAccessor groupContextAccessor)
+            IGroupContextAccessor groupContextAccessor,
+            IRoleManager roleManager)
         {
             _teacherRepository = teacherRepository;
             _subjectRepository = subjectRepository;
             _instanceRepository = instanceRepository;
             _groupContextAccessor = groupContextAccessor;
+            _roleManager = roleManager;
         }
 
         public async Task<int> Handle(AddTeacherCommand request, CancellationToken cancellationToken)
         {
+            if (!_roleManager.IsAdmin())
+                throw new InvalidOperationException("No access");
+
             var groupId = _groupContextAccessor.Current?.GroupId ?? throw new InvalidOperationException($"{nameof(Teacher.GroupId)} is absent");
 
             var teacher = new Teacher(

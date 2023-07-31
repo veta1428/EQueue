@@ -1,4 +1,5 @@
-﻿using Rey.EQueue.Shared;
+﻿using Rey.EQueue.Core.Entities.Security;
+using Rey.EQueue.Shared;
 
 namespace Rey.EQueue.Core.Entities
 {
@@ -7,6 +8,8 @@ namespace Rey.EQueue.Core.Entities
         public string? FirstName { get; set; }
 
         public string? LastName { get; set; }
+
+        public ICollection<UserRole> Roles { get; set; } = new List<UserRole>();
 
         public ICollection<Record> Records { get; set; } = null!;
 

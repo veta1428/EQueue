@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Rey.EQueue.Application.Context;
 using Rey.EQueue.Core.Entities;
+using Rey.EQueue.Core.Entities.Security;
 using Rey.EQueue.Core.User;
 using Rey.EQueue.EF.Configuration;
 
@@ -37,7 +38,11 @@ namespace Rey.EQueue.EF
 
         public DbSet<Timetable> Timetables { get; set; } = null!;
 
-        public DbSet<User> Users { get; set; } = null!;
+        public new DbSet<User> Users { get; set; } = null!;
+
+        public new DbSet<Role> Roles { get; set; } = null!;
+
+        public new DbSet<UserRole> UserRoles { get; set; } = null!;
 
         public DbSet<Group> Groups { get; set; } = null!;
 
@@ -56,6 +61,8 @@ namespace Rey.EQueue.EF
             modelBuilder.ApplyConfiguration<Teacher>(new TeacherConfiguration());
             modelBuilder.ApplyConfiguration<Timetable>(new TimetableConfiguration());
             modelBuilder.ApplyConfiguration<User>(new UserConfiguration());
+            modelBuilder.ApplyConfiguration<Role>(new RoleConfiguration());
+            modelBuilder.ApplyConfiguration<UserRole>(new UserRoleConfiguration());
 
             modelBuilder
                 .Entity<Teacher>()

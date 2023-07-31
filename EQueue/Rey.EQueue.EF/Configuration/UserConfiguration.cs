@@ -24,6 +24,10 @@ namespace Rey.EQueue.EF.Configuration
                 .HasOne<ApplicationUser>()
                 .WithOne()
                 .HasForeignKey<User>(x => x.ApplicationUserId);
+
+            builder
+                .HasMany(u => u.Roles)
+                .WithOne();
         }
     }
 }

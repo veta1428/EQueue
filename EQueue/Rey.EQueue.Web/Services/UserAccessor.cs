@@ -1,4 +1,5 @@
-﻿using Rey.EQueue.Application.Services;
+﻿using Microsoft.EntityFrameworkCore;
+using Rey.EQueue.Application.Services;
 using Rey.EQueue.Core.Entities;
 using Rey.EQueue.EF;
 using System.Security.Claims;
@@ -33,6 +34,8 @@ namespace Rey.EQueue.Web.Services
 
                 var user = _context.Users
                     .Where(u => u.ApplicationUserId == id)
+                    .Include(u => u.Roles)
+                    .ThenInclude(ur => ur.Role)
                     .Single();
 
                 SetUser(user);

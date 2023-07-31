@@ -10,6 +10,15 @@ namespace Rey.EQueue.EF.Repositories
         {
         }
 
+        public async Task<User> GetSystemUserAsync(CancellationToken cancellationToken)
+        {
+            return await Context.Users
+                .Where(user => user.Id == 1)
+                .Include(user => user.Roles)
+                .ThenInclude(ur => ur.Role)
+                .SingleAsync(cancellationToken);
+        }
+
         public async Task<User> GetUserByIdWithQueuesAndRecordsAsync(int userId, CancellationToken cancellationToken)
         {
             return await Context.Users

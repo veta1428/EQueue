@@ -13,12 +13,13 @@ using Rey.EQueue.Application.Context;
 using Rey.EQueue.Web.Context;
 using Rey.EQueue.Application.Options;
 using Rey.EQueue.Application.Commands.Commands;
+using Rey.EQueue.Application.Repositories;
 
 namespace Rey.EQueue.Web
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -78,6 +79,7 @@ namespace Rey.EQueue.Web
             using var scope = app.Services.CreateScope();
 
             var mediatr = scope.ServiceProvider.GetRequiredService<IMediator>();
+
             var scheduler = Rey.EQueue.Shared.TaskScheduler.Instance;
             scheduler.RunAndScheduleTask(7, async () 
                 => await mediatr.Send(new SynchronizeCommand(), CancellationToken.None));

@@ -8,7 +8,7 @@ import { GroupContextService } from './group-context.service';
 export class HeaderInterceptor implements HttpInterceptor {
     constructor(private _groupService: GroupContextService) 
     { }
-    
+
     intercept(httpRequest: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const headers = new HttpHeaders({
             'Group-Id': `${this._groupService.getGroupId()}`

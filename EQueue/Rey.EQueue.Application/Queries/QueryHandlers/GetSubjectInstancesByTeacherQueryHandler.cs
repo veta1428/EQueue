@@ -3,6 +3,7 @@ using Rey.EQueue.Application.Queries.Queries;
 using Rey.EQueue.Application.Queries.QueryModels;
 using Rey.EQueue.Application.Queries.QueryResults;
 using Rey.EQueue.Application.Repositories;
+using Rey.EQueue.Application.Services;
 using Rey.EQueue.Core.Entities;
 
 namespace Rey.EQueue.Application.Queries.QueryHandlers
@@ -11,17 +12,23 @@ namespace Rey.EQueue.Application.Queries.QueryHandlers
     {
         private readonly ISubjectInstanceRepository _subjectInstanceRepository;
         private readonly ISubjectInstanceTeacherRepository _subjectInstanceTeacherRepository;
+        private readonly IRoleManager _roleManager;
 
         public GetSubjectInstancesByTeacherQueryHandler(
             ISubjectInstanceRepository subjectInstanceRepository,
-            ISubjectInstanceTeacherRepository subjectInstanceTeacherRepository)
+            ISubjectInstanceTeacherRepository subjectInstanceTeacherRepository,
+            IRoleManager roleManager)
         {
             _subjectInstanceRepository = subjectInstanceRepository;
             _subjectInstanceTeacherRepository = subjectInstanceTeacherRepository;
+            _roleManager = roleManager;
         }
 
         public async Task<GetSubjectInstancesQueryResult> Handle(GetSubjectInstancesByTeacherQuery request, CancellationToken cancellationToken)
         {
+            if (!_roleManager.IsUserInGroup())
+                throw new InvalidOperationException("No access");
+
             var subjectInstancesTeachers = await _subjectInstanceTeacherRepository.GetByTeacherAsync(request.TeacherId, cancellationToken);
             var sitModels = subjectInstancesTeachers.Select(sit => new SubjectInstanceModel() 
             { 

@@ -2,6 +2,7 @@
 using Rey.EQueue.Application.Commands.Commands;
 using Rey.EQueue.Application.Context;
 using Rey.EQueue.Application.Repositories;
+using Rey.EQueue.Application.Services;
 using Rey.EQueue.Core.Entities;
 
 namespace Rey.EQueue.Application.Commands.CommandHandlers
@@ -11,19 +12,25 @@ namespace Rey.EQueue.Application.Commands.CommandHandlers
         private readonly IQueueRepository _queueRepository;
         private readonly IMediator _mediator;
         private readonly IGroupContextAccessor _groupContextAccessor;
+        private readonly IRoleManager _roleManager;
 
         public AddQueueCommandHandler(
             IQueueRepository queueRepository, 
             IMediator mediator,
-            IGroupContextAccessor groupContextAccessor)
+            IGroupContextAccessor groupContextAccessor,
+            IRoleManager roleManager)
         {
             _queueRepository = queueRepository;
             _mediator = mediator;
             _groupContextAccessor = groupContextAccessor;
+            _roleManager = roleManager;
         }
 
         public async Task<int> Handle(AddQueueCommand request, CancellationToken cancellationToken)
         {
+            if (!_roleManager.IsAdminInGroup())
+                throw new InvalidOperationException("No access");
+
             int groupId = _groupContextAccessor.Current?.GroupId ?? throw new InvalidOperationException($"{nameof(Queue.GroupId)} is absent");
 
             var addSchClassCommand = new AddScheduledClassCommand()

@@ -73,7 +73,7 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     </table>
     <br>
-    <div *ngIf="mode == 'active'">
+    <div *ngIf="mode == 'active' && isAdmin()">
         <button mat-raised-button color="primary" class="eq-button" (click)="addQueue()">+ Add Queue</button>
     </div>
 </ng-template>

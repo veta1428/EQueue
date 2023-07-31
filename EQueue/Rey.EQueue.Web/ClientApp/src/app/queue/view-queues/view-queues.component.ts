@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { QueueService } from '../queue.service';
 import { elementAt } from 'rxjs';
 import moment from 'moment';
+import { RoleService } from '../../../auth/role.service';
 
 @Component({
     selector: 'app-view-queues',
@@ -24,8 +25,13 @@ export class ViewQueuesComponent implements OnInit {
         private _cdr: ChangeDetectorRef, 
         private _router: Router, 
         private _queueService: QueueService,
-        private _activateRoute: ActivatedRoute) {
+        private _activateRoute: ActivatedRoute,
+        private _roleService: RoleService) {
 
+    }
+
+    public isAdmin(){
+        return this._roleService.isAdmin();
     }
 
     public getDateFormatted(date: string)

@@ -3,6 +3,7 @@ using Rey.EQueue.Application.Queries.Queries;
 using Rey.EQueue.Application.Queries.QueryModels;
 using Rey.EQueue.Application.Queries.QueryResults;
 using Rey.EQueue.Application.Repositories;
+using Rey.EQueue.Application.Services;
 using Rey.EQueue.Core.Entities;
 using System;
 using System.Collections.Generic;
@@ -16,14 +17,21 @@ namespace Rey.EQueue.Application.Queries.QueryHandlers
     {
 
         private readonly ISubjectInstanceRepository _subjectInstanceRepository;
+        private readonly IRoleManager _roleManager;
 
-        public GetSubjectInstancesQueryHandler(ISubjectInstanceRepository subjectInstanceRepository)
+        public GetSubjectInstancesQueryHandler(
+            ISubjectInstanceRepository subjectInstanceRepository,
+            IRoleManager roleManager)
         {
             _subjectInstanceRepository = subjectInstanceRepository;
+            _roleManager = roleManager;
         }
 
         public async Task<GetSubjectInstancesQueryResult> Handle(GetSubjectInstancesQuery request, CancellationToken cancellationToken)
         {
+            if (!_roleManager.IsUserInGroup())
+                throw new InvalidOperationException("No access");
+
             var subjectInstances = (await _subjectInstanceRepository.GetDetailedAsync(cancellationToken)).Select(subjectInstance => new SubjectInstanceModel()
             {
                 Id = subjectInstance.Id,

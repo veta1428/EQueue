@@ -9,9 +9,12 @@ import { UserModel } from './models/user';
 export class AuthService {
 
     constructor(private _httpClient: HttpClient) { }
+    private _user: UserModel | null = null;
+    public get user(): UserModel | null {
+        return this._user;
+    }
 
-    isAuthenticated() : Observable<boolean>
-    {
+    isAuthenticated(): Observable<boolean> {
         return this.getUser().pipe(
             map(u => {
                 return u === null ? false : true;
@@ -19,8 +22,7 @@ export class AuthService {
         );
     }
 
-    getUser() : Observable<UserModel>
-    {
+    getUser(): Observable<UserModel> {
         return this._httpClient.get<UserModel>("api/membership/current");
     }
 }

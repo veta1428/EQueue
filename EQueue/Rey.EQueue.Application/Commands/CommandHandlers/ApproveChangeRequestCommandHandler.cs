@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Rey.EQueue.Application.Commands.Commands;
 using Rey.EQueue.Application.Repositories;
+using Rey.EQueue.Application.Services;
 using Rey.EQueue.Core.Enums;
 
 namespace Rey.EQueue.Application.Commands.CommandHandlers
@@ -10,15 +11,23 @@ namespace Rey.EQueue.Application.Commands.CommandHandlers
     {
         private readonly IRecordRepository _recordRepository;
         private readonly IChangeRequestRepository _changeRequestRepository;
+        private readonly IRoleManager _roleManager;
 
-        public ApproveChangeRequestCommandHandler(IRecordRepository recordRepository, IChangeRequestRepository changeRequestRepository)
+        public ApproveChangeRequestCommandHandler(
+            IRecordRepository recordRepository, 
+            IChangeRequestRepository changeRequestRepository,
+            IRoleManager roleManager)
         {
             _recordRepository = recordRepository;
             _changeRequestRepository = changeRequestRepository;
+            _roleManager = roleManager;
         }
 
         public async Task<Unit> Handle(ApproveChangeRequestCommand request, CancellationToken cancellationToken)
         {
+            if (!_roleManager.IsUserInGroup())
+                throw new InvalidOperationException("No access");
+
             var changeRequest = await _changeRequestRepository.FindByIdAsync(request.ChangeRequestId, cancellationToken);
 
             if (changeRequest.Status != RequestStatus.Pending)

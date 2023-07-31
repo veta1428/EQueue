@@ -9,7 +9,8 @@ namespace Rey.EQueue.Application.Queries.QueryHandlers
     {
         private readonly IUserAccessor _userAccessor;
 
-        public GetCurrentUserQueryHandler(IUserAccessor userAccessor)
+        public GetCurrentUserQueryHandler(
+            IUserAccessor userAccessor)
         {
             _userAccessor = userAccessor;
         }
@@ -21,7 +22,7 @@ namespace Rey.EQueue.Application.Queries.QueryHandlers
             if(user is null)
                 return Task.FromResult<UserModel?>(null);
 
-            return Task.FromResult((UserModel?)(new UserModel() { Id = user!.Id, FirstName = user!.FirstName, LastName = user!.LastName }));
+            return Task.FromResult((UserModel?)(new UserModel() { Id = user!.Id, FirstName = user!.FirstName, LastName = user!.LastName, Roles = user!.Roles.Select(ur => new UserRoleModel() { GroupId = ur.GroupId, Role = ur.Role.Name }).ToList() }));
         }
     }
 }

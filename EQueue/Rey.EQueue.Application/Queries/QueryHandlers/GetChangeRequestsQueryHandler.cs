@@ -14,26 +14,30 @@ namespace Rey.EQueue.Application.Queries.QueryHandlers
         private readonly IUserRepository _userRepository;
         private readonly IChangeRequestRepository _changeRequestRepository;
         private readonly IQueueRepository _queueRepository;
+        private readonly IRoleManager _roleManager;
 
-        private Dictionary<int, IEnumerable<Record>> _queueInfo;
+        private Dictionary<int, IEnumerable<Record>> _queueInfo = new Dictionary<int, IEnumerable<Record>>();
 
         public GetChangeRequestsQueryHandler(
             IUserAccessor userAccessor,
             IUserRepository userRepository,
             IChangeRequestRepository changeRequestRepository,
-            IQueueRepository queueRepository)
+            IQueueRepository queueRepository,
+            IRoleManager roleManager)
         {
             _userAccessor = userAccessor;
             _userRepository = userRepository;
             _changeRequestRepository = changeRequestRepository;
             _queueRepository = queueRepository;
+            _roleManager = roleManager;
         }
 
         public async Task<GetChangeRequestsQueryResult> Handle(GetChangeRequestsQuery request, CancellationToken cancellationToken)
         {
-            
-            var currentUser = _userAccessor.CurrentUser ?? throw new InvalidOperationException();
+            if (!_roleManager.IsUserInGroup())
+                throw new InvalidOperationException("No access");
 
+            var currentUser = _userAccessor.CurrentUser ?? throw new InvalidOperationException();
 
             IEnumerable<ChangeRequest>? changeRequests = null;
 

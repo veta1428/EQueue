@@ -11,20 +11,26 @@ namespace Rey.EQueue.Application.Commands.CommandHandlers
         private readonly IRecordRepository _recordRepository;
         private readonly IUserAccessor _userAccessor;
         private readonly IChangeRequestRepository _changeRequestRepository;
+        private readonly IRoleManager _roleManager;
 
         public RemoveUserFromQueueCommandHandler(
             IRecordRepository recordRepository,
             IUserAccessor userAccessor,
-            IChangeRequestRepository changeRequestRepository)
+            IChangeRequestRepository changeRequestRepository,
+            IRoleManager roleManager)
         {
             _recordRepository = recordRepository;
             _userAccessor = userAccessor;
             _changeRequestRepository = changeRequestRepository;
+            _roleManager = roleManager;
 
         }
 
         public async Task<Unit> Handle(RemoveUserFromQueueCommand request, CancellationToken cancellationToken)
         {
+            if (!_roleManager.IsUserInGroup())
+                throw new InvalidOperationException("No access");
+
             var currentUser = _userAccessor.CurrentUser
                 ?? throw new InvalidOperationException("No user in context!");
 

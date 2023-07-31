@@ -14,23 +14,29 @@ namespace Rey.EQueue.Application.Commands.CommandHandlers
         private readonly IRecordRepository _recordRepository;
         private readonly IQueueRepository _queueRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IRoleManager _roleManager;
 
         public AddChangeRequestCommandHandler(
             IChangeRequestRepository changeRequestRepository,
             IUserAccessor userAccessor,
             IRecordRepository recordRepository,
             IQueueRepository queueRepository,
-            IUserRepository userRepository)
+            IUserRepository userRepository,
+            IRoleManager roleManager)
         {
             _changeRequestRepository = changeRequestRepository;
             _userAccessor = userAccessor;
             _recordRepository = recordRepository;
             _queueRepository = queueRepository;
             _userRepository = userRepository;
+            _roleManager = roleManager;
         }
 
         public async Task<int> Handle(AddChangeRequestCommand request, CancellationToken cancellationToken)
         {
+            if (!_roleManager.IsUserInGroup())
+                throw new InvalidOperationException("No access");
+
             var currentUser = _userAccessor.CurrentUser ?? throw new InvalidOperationException();
             var currentUserRecord = await _recordRepository.GetUserRecordByQueueAsync(currentUser.Id, request.QueueId, cancellationToken);
 

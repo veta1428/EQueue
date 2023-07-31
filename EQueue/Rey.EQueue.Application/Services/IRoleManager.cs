@@ -2,8 +2,8 @@
 {
     public interface IRoleManager
     {
-        bool IsUser();
+        bool IsUserInGroup();
 
-        bool IsAdmin();
+        bool IsAdminInGroup();
     }
 }

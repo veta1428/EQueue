@@ -33,7 +33,6 @@ export class AppComponent implements OnInit {
     }
 
     hasPracticeContext(){
-        console.log(!Number.isNaN(this._groupContext.getGroupId()));
         return !Number.isNaN(this._groupContext.getGroupId());
     }
 }

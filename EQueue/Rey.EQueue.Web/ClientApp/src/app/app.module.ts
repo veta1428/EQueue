@@ -43,6 +43,7 @@ import { ViewClassesComponent } from './subject-instance/timetable/view-classes/
 import { AddClassDialogComponent } from './subject-instance/timetable/add-class-dialog/add-class-dialog.component';
 import { HeaderInterceptor } from 'src/core/header-interceptor';
 import { GroupsComponent } from './groups/groups.component';
+import { GroupListGuardService } from '../auth/groups-list-guard.service';
 
 @NgModule({
     declarations: [
@@ -92,9 +93,11 @@ import { GroupsComponent } from './groups/groups.component';
             {
                 path: 'all-groups',
                 component: GroupsComponent,
+                canActivate: [GroupListGuardService],
             },
             { 
                 path: 'group/:groupId',
+                canActivate: [AuthGuardService],
                 children: [
                     { path: 'queues/:mode', component: ViewQueuesComponent, canActivate: [AuthGuardService] },
                     { path: 'counter', component: CounterComponent, canActivate: [AuthGuardService] },
@@ -108,12 +111,12 @@ import { GroupsComponent } from './groups/groups.component';
                     { path: 'add-queue', component: AddQueueComponent, canActivate: [AuthGuardService]},
                     { path: 'change-requests/:mode', component: ChangeRequestComponent, canActivate: [AuthGuardService]},
                     { path: 'subject-instance/:id', component: ViewSubjectInstanceComponent, canActivate: [AuthGuardService]},
-                    { path: '**', redirectTo: '/all-groups' }
                 ]
             },
+            { path: '**', redirectTo: '/all-groups'}
         ])
     ],
-    providers: [AuthGuardService, { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true }],
+    providers: [AuthGuardService, GroupListGuardService, { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true }],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

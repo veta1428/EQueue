@@ -16,9 +16,13 @@ namespace Rey.EQueue.Web.Services
             _httpContextAccessor = httpContextAccessor;
             _context = context;
 
-            var httpContext = _httpContextAccessor.HttpContext 
-                ?? throw new ArgumentNullException(nameof(httpContextAccessor));
+            var httpContext = _httpContextAccessor.HttpContext;
 
+            if (httpContext is null)
+            {
+                SetUser(null);
+                return;
+            }
 
             var identity = httpContext.User.Identity is not null && httpContext.User.Identity.IsAuthenticated
                 ? (ClaimsIdentity)httpContext.User.Identity

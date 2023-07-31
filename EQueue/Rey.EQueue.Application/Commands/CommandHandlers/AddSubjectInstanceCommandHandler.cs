@@ -1,12 +1,8 @@
 ﻿using MediatR;
 using Rey.EQueue.Application.Commands.Commands;
 using Rey.EQueue.Application.Repositories;
+using Rey.EQueue.Application.Services;
 using Rey.EQueue.Core.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Rey.EQueue.Application.Commands.CommandHandlers
 {
@@ -14,15 +10,22 @@ namespace Rey.EQueue.Application.Commands.CommandHandlers
     {
         private readonly ISubjectInstanceRepository _subjectInstanceRepository;
         private readonly ITeacherRepository _teacherRepository;
+        private readonly IRoleManager _roleManager;
 
-        public AddSubjectInstanceCommandHandler(ISubjectInstanceRepository subjectInstanceRepository, ITeacherRepository teacherRepository)
+        public AddSubjectInstanceCommandHandler(
+            ISubjectInstanceRepository subjectInstanceRepository,
+            ITeacherRepository teacherRepository,
+            IRoleManager roleManager)
         {
             _subjectInstanceRepository = subjectInstanceRepository;
             _teacherRepository = teacherRepository;
+            _roleManager = roleManager;
         }
 
         public async Task<int> Handle(AddSubjectInstanceCommand request, CancellationToken cancellationToken)
         {
+            if (!_roleManager.IsAdminInGroup())
+                throw new InvalidOperationException("No access");
 
             var si = new SubjectInstance() { Name = request.Name, Description = request.Description, SubjectId = request.SubjectId };
 

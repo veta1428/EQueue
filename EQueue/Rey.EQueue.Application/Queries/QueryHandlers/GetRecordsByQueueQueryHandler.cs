@@ -14,19 +14,25 @@ namespace Rey.EQueue.Application.Queries.QueryHandlers
         private readonly IQueueRepository _queueRepository;
         private readonly IUserAccessor _userAccessor;
         private readonly IRecordRepository _recordRepository;
+        private readonly IRoleManager _roleManager;
 
         public GetRecordsByQueueQueryHandler(
             IQueueRepository queueRepository,
             IUserAccessor userAccessor,
-            IRecordRepository recordRepository)
+            IRecordRepository recordRepository,
+            IRoleManager roleManager)
         {
             _queueRepository = queueRepository;
             _userAccessor = userAccessor;
             _recordRepository = recordRepository;
+            _roleManager = roleManager;
         }
 
         public async Task<GetRecordsByQueueQueryResult> Handle(GetRecordsByQueueQuery request, CancellationToken cancellationToken)
         {
+            if (!_roleManager.IsUserInGroup())
+                throw new InvalidOperationException("No access");
+
             var user = _userAccessor.CurrentUser ?? throw new InvalidOperationException("No user in context.");
             var queue = await (_queueRepository.GetQuery()
                 .Where(q => q.Id == request.QueueId)

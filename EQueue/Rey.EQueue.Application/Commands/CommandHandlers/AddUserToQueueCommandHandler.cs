@@ -10,17 +10,23 @@ namespace Rey.EQueue.Application.Commands.CommandHandlers
     {
         private readonly IUserAccessor _userAccessor;
         private readonly IRecordRepository _recordRepository;
+        private readonly IRoleManager _roleManager;
 
         public AddUserToQueueCommandHandler(
             IUserAccessor userAccessor,
-            IRecordRepository recordRepository)
+            IRecordRepository recordRepository,
+            IRoleManager roleManager)
         {
             _userAccessor = userAccessor;
             _recordRepository = recordRepository;
+            _roleManager = roleManager;
         }
 
         public async Task<int> Handle(AddUserToQueueCommand request, CancellationToken cancellationToken)
         {
+            if (!_roleManager.IsUserInGroup())
+                throw new InvalidOperationException("No access");
+
             var user = _userAccessor.CurrentUser 
                 ?? throw new InvalidOperationException();
 

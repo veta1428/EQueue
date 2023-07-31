@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Rey.EQueue.Application.Commands.Commands;
 using Rey.EQueue.Application.Repositories;
+using Rey.EQueue.Application.Services;
 using Rey.EQueue.Core.Entities;
 
 namespace Rey.EQueue.Application.Commands.CommandHandlers
@@ -10,19 +11,25 @@ namespace Rey.EQueue.Application.Commands.CommandHandlers
         private readonly ISubjectInstanceRepository _subjectInstanceRepository;
         private readonly IScheduledClassRepository _scheduledClassRepository;
         private readonly IMediator _mediator;
+        private readonly IRoleManager _roleManager;
 
         public GenerateQueuesCommandHandler(
             ISubjectInstanceRepository subjectInstanceRepository,
             IScheduledClassRepository scheduledClassRepository,
-            IMediator mediator)
+            IMediator mediator,
+            IRoleManager roleManager)
         {
             _subjectInstanceRepository = subjectInstanceRepository;
             _scheduledClassRepository = scheduledClassRepository;
             _mediator = mediator;
+            _roleManager = roleManager;
         }
 
         public async Task<Unit> Handle(GenerateQueuesCommand request, CancellationToken cancellationToken)
         {
+            if (!_roleManager.IsAdminInGroup())
+                throw new InvalidOperationException("No access");
+
             var currentDay = DateTime.UtcNow;
             var currentDayOfWeek = currentDay.DayOfWeek;
 

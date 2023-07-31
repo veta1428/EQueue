@@ -13,12 +13,12 @@ namespace Rey.EQueue.Application.Services
             _groupContextAccessor = groupContextAccessor;
         }
 
-        public bool IsAdmin()
+        public bool IsAdminInGroup()
         {
             return UserInRole("admin");
         }
 
-        public bool IsUser()
+        public bool IsUserInGroup()
         {
             return UserInRole("user");
         }

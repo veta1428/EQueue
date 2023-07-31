@@ -31,7 +31,7 @@ namespace Rey.EQueue.Application.Commands.CommandHandlers
 
         public async Task<int> Handle(AddTeacherCommand request, CancellationToken cancellationToken)
         {
-            if (!_roleManager.IsAdmin())
+            if (!_roleManager.IsAdminInGroup())
                 throw new InvalidOperationException("No access");
 
             var groupId = _groupContextAccessor.Current?.GroupId ?? throw new InvalidOperationException($"{nameof(Teacher.GroupId)} is absent");

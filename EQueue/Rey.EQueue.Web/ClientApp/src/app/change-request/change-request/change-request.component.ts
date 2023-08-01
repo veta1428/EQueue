@@ -80,6 +80,6 @@ export class ChangeRequestComponent implements OnInit {
     public visitQueue(element: ChangeRequest, $event: Event)
     {
         $event.stopPropagation();
-        this._router.navigate([`view-queue/${element.queueId}`]);
+        this._router.navigate([`view-queue/${element.queueId}`], {relativeTo: this._activateRoute.parent });
     }
 }

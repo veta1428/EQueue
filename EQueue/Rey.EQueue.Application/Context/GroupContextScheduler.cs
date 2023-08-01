@@ -27,7 +27,7 @@ namespace Rey.EQueue.Application.Context
 
             if (groupId.HasValue)
             {
-                var group = _groupRepository.TryFindByIdAsync(groupId.Value, cancellationToken);
+                var group = await _groupRepository.TryFindByIdAsync(groupId.Value, cancellationToken);
                 if (group is null)
                     throw new InvalidOperationException("No such group found");
 

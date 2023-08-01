@@ -31,11 +31,13 @@
                 </mat-form-field>
             </div>
         </mat-card-content>
-        <mat-card-actions>
-            <div>
-                <button *ngIf="queue?.isActive" mat-raised-button color="primary">Edit</button>
-            </div>
-        </mat-card-actions>
+        <ng-container *ngIf="isAdmin()">
+            <mat-card-actions>
+                <div>
+                    <button *ngIf="queue?.isActive" mat-raised-button color="primary">Edit</button>
+                </div>
+            </mat-card-actions>
+        </ng-container>
     </mat-card>
     <br />
     <h2>Records</h2>

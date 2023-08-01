@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { AddTeacherDialogComponent } from '../add-teacher-dialog/add-teacher-dialog.component';
 import { TeacherService } from '../teacher.service';
+import { RoleService } from '../../../auth/role.service';
 @Component({
     selector: 'view-teachers',
     templateUrl: './view-teachers.component.html',
@@ -22,8 +23,13 @@ export class ViewTeachersComponent implements OnInit {
         private _route: ActivatedRoute,
         private _router: Router, 
         private _dialog: MatDialog,
-        private _teacherService: TeacherService) {
+        private _teacherService: TeacherService,
+        private _roleService: RoleService) {
 
+    }
+
+    public isAdmin(){
+        return this._roleService.isAdmin();
     }
 
     ngOnInit()

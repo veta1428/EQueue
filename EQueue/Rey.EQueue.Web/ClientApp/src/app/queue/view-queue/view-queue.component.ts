@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { QueueService } from '../queue.service';
 import {Moment} from 'moment';
 import moment from 'moment';
+import { RoleService } from '../../../auth/role.service';
 
 @Component({
     selector: 'app-view-queue',
@@ -29,9 +30,14 @@ export class ViewQueueComponent implements OnInit, OnDestroy {
         private _http: HttpClient, 
         private _cdr: ChangeDetectorRef, 
         private _activateRoute: ActivatedRoute,
-        private _queueService: QueueService) 
+        private _queueService: QueueService,
+        private _roleService: RoleService) 
     {
         this.subsciption.add(_activateRoute.params.subscribe(params => this.queueId = params['id']));
+    }
+
+    public isAdmin(){
+        return this._roleService.isAdmin();
     }
 
     public userInQueue() : boolean

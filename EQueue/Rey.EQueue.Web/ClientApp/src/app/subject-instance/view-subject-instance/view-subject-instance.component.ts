@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { SubjectInstanceDetails, TimetableModel } from '../../models/subject-instance';
 import { SubjectIntsanceService } from '../subject-intsance.service';
 import { ActivatedRoute } from '@angular/router';
+import { RoleService } from '../../../auth/role.service';
 
 @Component({
     selector: 'app-view-subject-instance',
@@ -15,13 +16,21 @@ export class ViewSubjectInstanceComponent implements OnInit {
     public isLoading: boolean = true;
     public displayedColumns: String[] = ['id', 'firstName', 'middleName', 'lastName', 'description'];
     public showAddTimetableBlock: boolean = false;
-    constructor(private _siService: SubjectIntsanceService, private _activatedRoute: ActivatedRoute, private _cdr: ChangeDetectorRef) { }
+    constructor(
+        private _siService: SubjectIntsanceService, 
+        private _activatedRoute: ActivatedRoute, 
+        private _cdr: ChangeDetectorRef,
+        private _roleService: RoleService) { }
 
     public getStringData(data: string | undefined | null): string {
         if (data == '' || data == null) {
             return 'N/A';
         }
         return data;
+    }
+
+    public isAdmin(){
+        return this._roleService.isAdmin();
     }
 
     ngOnInit(): void {

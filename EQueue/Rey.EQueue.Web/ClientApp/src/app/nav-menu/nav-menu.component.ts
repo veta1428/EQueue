@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { UserModel } from '../../auth/models/user';
 import { GroupContextService } from 'src/core/group-context.service';
+import { RoleService } from '../../auth/role.service';
 
 @Component({
 	selector: 'app-nav-menu',
@@ -11,7 +12,7 @@ export class NavMenuComponent {
 	/**
 	 *
 	 */
-	constructor(private _groupContext: GroupContextService) {
+	constructor(private _groupContext: GroupContextService, private _roleService: RoleService) {
 
 	}
 
@@ -19,6 +20,11 @@ export class NavMenuComponent {
 
 	get groupId(): number | undefined {
 		return this._groupContext.getGroupId();
+	}
+
+	get showGroupsTab(): boolean
+	{
+		return !this._roleService.hasOnlyOneGroup();
 	}
 
 	@Input() user: UserModel | null = null;

@@ -1,4 +1,8 @@
-﻿using Rey.EQueue.Application.Context;
+﻿using Microsoft.EntityFrameworkCore;
+using Rey.EQueue.Application.Context;
+using Rey.EQueue.Application.Services;
+using Rey.EQueue.EF;
+using System.Security.Claims;
 
 namespace Rey.EQueue.Web.Middlewares
 {

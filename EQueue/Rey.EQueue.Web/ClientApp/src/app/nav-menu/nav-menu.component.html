@@ -70,11 +70,13 @@
               >
             </li>
           </ng-container>
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/all-groups']"
-              >Groups</a
-            >
-          </li>
+          <ng-container *ngIf="showGroupsTab">
+            <li class="nav-item" [routerLinkActive]="['link-active']">
+              <a class="nav-link text-dark" [routerLink]="['/all-groups']"
+                >Groups</a
+              >
+            </li>
+          </ng-container>
           <li class="nav-item" [routerLinkActive]="['link-active']">
             <b class="nav-link text-dark">{{user?.firstName}} {{user?.lastName}}</b>
           </li>

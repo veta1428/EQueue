@@ -34,7 +34,17 @@ export class RoleService {
         if (user === null) {
             return [];
         }
+        return user.roles.filter(r => r.groupId === groupId).map(r => r.role.toLowerCase());
+    }
 
-        return user.roles.filter(r => r.groupId === groupId).map(r => r.role);
+    hasOnlyOneGroup()
+    {
+        let user = this._authService.user;
+
+        if (user === null) {
+            return false;
+        }
+        
+        return new Set(user.roles.map(r => r.groupId)).size === 1;
     }
 }

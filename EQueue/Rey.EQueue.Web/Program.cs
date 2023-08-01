@@ -104,7 +104,7 @@ namespace Rey.EQueue.Web
             app.UseRouting();
 
             app.UseAuthentication();
-
+            app.UseMiddleware<UserAccessorMiddleware>();
             app.Use((ctx, del) =>
             {
                 var u = ctx.User;

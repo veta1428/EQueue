@@ -30,7 +30,7 @@
                     <input matInput readonly value="{{getStringData(subjectInstance?.instanceDescription)}}">
                 </mat-form-field>
             </div>
-            <div>
+            <div *ngIf="isAdmin()">
                 <button mat-raised-button color="primary" class="eq-button">Edit</button>
             </div>
         </mat-card-content>
@@ -101,7 +101,7 @@
         <app-add-timetable (newTimetableEvent)="onAddTimetable($event)" (onNewTimetableCancel)="onCancelAddNewTimetable()"></app-add-timetable>
     </div>
     <br>
-    <div>
+    <div *ngIf="isAdmin()">
         <button mat-raised-button color="primary" class="eq-buttons approve-button" (click)="onAddNewTimetableClicked()">+ Apply New Timetable</button>
     </div>
     <br>

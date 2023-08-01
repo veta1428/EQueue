@@ -14,7 +14,7 @@ import { RoleService } from '../../../auth/role.service';
 })
 export class ViewQueuesComponent implements OnInit {
 
-    public displayedColumns: String[] = ['id', 'subjectInstanceName', 'startTime', 'peopleIn', 'currentUserPosition', 'actions'];
+    public displayedColumns: String[] = ['id', 'subjectInstanceName', 'startTime', 'peopleIn', 'currentUserPosition'];
     public dataSource: QueueModel[] = [];
     public isLoading: boolean = true;
     public mode: QueueSearchMode = QueueSearchMode.Active;
@@ -45,6 +45,9 @@ export class ViewQueuesComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        if (this.isAdmin()){
+            this.displayedColumns.push('actions');
+        }
         this._activateRoute.params.subscribe(params => {
             this.mode = params['mode'];
             this._queueService.getQueues(this.mode).subscribe((queues: QueueModelList) => {

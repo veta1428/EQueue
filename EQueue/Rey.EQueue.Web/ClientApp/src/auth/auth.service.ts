@@ -17,6 +17,7 @@ export class AuthService {
     isAuthenticated(): Observable<boolean> {
         return this.getUser().pipe(
             map(u => {
+                this._user = u;
                 return u === null ? false : true;
             })
         );

@@ -37,13 +37,15 @@
                 </mat-form-field>
             </div>
         </mat-card-content>
-        <mat-card-actions>
-            <button mat-raised-button color="primary" (click)="onEditClicked()">Edit</button>
-        </mat-card-actions>
+        <ng-container *ngIf="isAdmin()">
+            <mat-card-actions>
+                <button mat-raised-button color="primary" (click)="onEditClicked()">Edit</button>
+            </mat-card-actions>
+        </ng-container>
     </mat-card>
     <br>
     <view-subject-instances [dataSource]="dataSource"></view-subject-instances>
-    <div>
+    <div *ngIf="isAdmin()">
         <button mat-raised-button color="primary" class="eq-button" (click)="addSubjectInstance()">+ Add Subject Instance</button>
     </div>
     <br>

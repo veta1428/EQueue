@@ -6,52 +6,54 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { SubjectService } from '../subject.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AddSubjectDialogComponent } from '../add-subject-dialog/add-subject-dialog.component';
+import { RoleService } from '../../../auth/role.service';
+
 @Component({
     selector: 'view-subjects',
     templateUrl: './view-subjects.component.html',
     styleUrls: ['view-subjects.component.scss']
 })
 
-export class ViewSubjectsComponent implements OnInit
-{
+export class ViewSubjectsComponent implements OnInit {
     public displayedColumns: String[] = ['id', 'name', 'description'];
     public dataSource: Subject[] = [];
     public isLoading: boolean = true;
-    
+
     constructor(
-        private _http: HttpClient, 
-        private _cdr: ChangeDetectorRef, 
+        private _http: HttpClient,
+        private _cdr: ChangeDetectorRef,
         private _route: ActivatedRoute,
         private _router: Router,
         private _subjectService: SubjectService,
-        private _dialog: MatDialog,) 
-    {
+        private _dialog: MatDialog,
+        private _roleService: RoleService) {
     }
 
-    ngOnInit()
-    {
-        this._subjectService.getSubjects().subscribe((subjects: SubjectList) => { 
+    isAdmin() {
+        return this._roleService.isAdmin();
+    }
+
+    ngOnInit() {
+        this._subjectService.getSubjects().subscribe((subjects: SubjectList) => {
             this.dataSource = subjects.subjects;
             this.isLoading = false;
             this._cdr.detectChanges();
         });
     }
 
-    getSubject(subject: Subject)
-    {
-        this._router.navigate([`view-subject/${subject.id}`], {relativeTo: this._route.parent });
+    getSubject(subject: Subject) {
+        this._router.navigate([`view-subject/${subject.id}`], { relativeTo: this._route.parent });
     }
 
-    addSubjectClicked()
-    {
+    addSubjectClicked() {
         this.openDialog();
     }
 
     openDialog(): void {
         const dialogRef = this._dialog.open(AddSubjectDialogComponent, {
-          data: {update: false}
+            data: { update: false }
         });
-    
+
         dialogRef.afterClosed().subscribe(result => {
 
             this.ngOnInit();

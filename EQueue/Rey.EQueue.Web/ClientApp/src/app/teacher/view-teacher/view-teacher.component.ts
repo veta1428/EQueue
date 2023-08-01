@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { SubjectInstance, SubjectInstanceList } from '../../models/subject-instance';
 import { MatDialog } from '@angular/material/dialog';
 import { AddTeacherDialogComponent } from '../add-teacher-dialog/add-teacher-dialog.component';
+import { RoleService } from '../../../auth/role.service';
 
 @Component({
     selector: 'view-teacher',
@@ -24,9 +25,14 @@ export class ViewTeacherComponent implements OnInit, OnDestroy {
         private _cdr: ChangeDetectorRef, 
         private _activateRoute: ActivatedRoute, 
         private _router: Router,
-        private _dialog: MatDialog,) 
+        private _dialog: MatDialog,
+        private _roleService: RoleService) 
     {
         this.subsciption.add(_activateRoute.params.subscribe(params => this.teacherId = params['id']));
+    }
+
+    public isAdmin(){
+        return this._roleService.isAdmin();
     }
 
     ngOnInit()

@@ -6,6 +6,7 @@ import { SubjectInstance, SubjectInstanceList } from '../../models/subject-insta
 import { MatDialog } from '@angular/material/dialog';
 import { AddSubjectDialogComponent } from '../add-subject-dialog/add-subject-dialog.component';
 import { Subject } from '../../models/subject';
+import { RoleService } from '../../../auth/role.service';
 
 @Component({
     selector: 'view-subject',
@@ -24,7 +25,8 @@ export class ViewSubjectComponent implements OnInit, OnDestroy {
         private _cdr: ChangeDetectorRef, 
         private _activateRoute: ActivatedRoute,
         private _router: Router,
-        private _dialog: MatDialog,) 
+        private _dialog: MatDialog,
+        private _roleService: RoleService) 
     {
         this.subsciption.add(_activateRoute.params.subscribe(params => this.subjectId = params['id']));
     }
@@ -39,9 +41,11 @@ export class ViewSubjectComponent implements OnInit, OnDestroy {
                 this._cdr.detectChanges();
                 this._cdr.markForCheck();
             });
-        });
+        });    
+    }
 
-    
+    isAdmin() {
+        return this._roleService.isAdmin();
     }
 
     ngOnDestroy()

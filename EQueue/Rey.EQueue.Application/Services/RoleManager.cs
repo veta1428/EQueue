@@ -1,4 +1,5 @@
 ﻿using Rey.EQueue.Application.Context;
+using Rey.EQueue.Core.Entities;
 
 namespace Rey.EQueue.Application.Services
 {
@@ -7,21 +8,17 @@ namespace Rey.EQueue.Application.Services
         private readonly IUserAccessor _userAccessor;
         private readonly IGroupContextAccessor _groupContextAccessor;
 
-        public RoleManager(IUserAccessor userAccessor, IGroupContextAccessor groupContextAccessor)
+        public RoleManager(
+            IUserAccessor userAccessor, 
+            IGroupContextAccessor groupContextAccessor)
         {
             _userAccessor = userAccessor;
             _groupContextAccessor = groupContextAccessor;
         }
 
-        public bool IsAdminInGroup()
-        {
-            return UserInRole("admin");
-        }
+        public bool IsAdminInGroup() => UserInRole("admin");
 
-        public bool IsUserInGroup()
-        {
-            return UserInRole("user");
-        }
+        public bool IsUserInGroup() => UserInRole("user");
 
         private bool UserInRole(string role)
         {
@@ -29,9 +26,11 @@ namespace Rey.EQueue.Application.Services
                 ?? throw new InvalidOperationException($"No {nameof(GroupContext.GroupId)} found");
 
             var user = _userAccessor.CurrentUser
-                ?? throw new InvalidOperationException($"No user in context found");
+                ?? throw new InvalidOperationException($"No {nameof(User)} found");
 
-            if (user.Roles.Where(ur => ur.GroupId == groupId).Any(ur => ur.Role.Name.ToLower() == role.ToLower()))
+            if (user.Roles
+                .Where(ur => ur.GroupId == groupId)
+                .Any(ur => ur.Role.Name.ToLower() == role.ToLower()))
                 return true;
 
             return false;

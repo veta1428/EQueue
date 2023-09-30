@@ -10,9 +10,9 @@ import { GroupContextService } from '../core/group-context.service';
 })
 export class RoleService {
 
-    constructor(private _authService: AuthService, private _groupContext: GroupContextService) {
-
-    }
+    constructor(
+        private _authService: AuthService, 
+        private _groupContext: GroupContextService) { }
 
     isUser(): boolean {
         return this.getRoles().includes('user');
@@ -37,14 +37,13 @@ export class RoleService {
         return user.roles.filter(r => r.groupId === groupId).map(r => r.role.toLowerCase());
     }
 
-    hasOnlyOneGroup()
-    {
+    hasOnlyOneGroup() {
         let user = this._authService.user;
 
         if (user === null) {
             return false;
         }
-        
+
         return new Set(user.roles.map(r => r.groupId)).size === 1;
     }
 }

@@ -18,21 +18,12 @@ namespace Rey.EQueue.Web.Middlewares
         }
 
         public async Task InvokeAsync(
-            HttpContext context, 
-            IHttpContextAccessor httpContextAccessor, 
+            HttpContext context,
             ApplicationDbContext dbContext, 
             IUserAccessor userAccessor)
         {
-            var httpContext = httpContextAccessor.HttpContext;
-
-            if (httpContext is null)
-            {
-                userAccessor.SetUser(null);
-                return;
-            }
-
-            var identity = httpContext.User.Identity is not null && httpContext.User.Identity.IsAuthenticated
-                ? (ClaimsIdentity)httpContext.User.Identity
+            var identity = context.User.Identity is not null && context.User.Identity.IsAuthenticated
+                ? (ClaimsIdentity)context.User.Identity
                 : null;
 
             if (identity is null)

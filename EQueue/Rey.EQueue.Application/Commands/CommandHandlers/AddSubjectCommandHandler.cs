@@ -29,9 +29,9 @@ namespace Rey.EQueue.Application.Commands.CommandHandlers
             if (!_roleManager.IsAdminInGroup())
                 throw new InvalidOperationException("No access");
 
-            int groupId = _groupContextAccessor.Current?.GroupId ?? throw new InvalidOperationException($"{nameof(Subject.GroupId)} is absent");
+            int groupId = _groupContextAccessor.Current?.GroupId 
+                ?? throw new InvalidOperationException($"{nameof(Subject.GroupId)} is absent");
 
-            // ToDo: check access
             var subject = new Subject(request.Name, request.Description) { GroupId = groupId };
             _subjectRepository.Add(subject);
             await _subjectRepository.SaveChangesAsync(cancellationToken);
